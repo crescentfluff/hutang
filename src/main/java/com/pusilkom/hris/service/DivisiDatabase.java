@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.DivisiMapper;
-import com.example.demo.model.DivisiModel;
+import com.pusilkom.hris.model.mapper.DivisiMapper;
+import com.pusilkom.hris.model.DivisiModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

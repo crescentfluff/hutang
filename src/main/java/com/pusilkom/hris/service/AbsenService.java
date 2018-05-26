@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.AbsenModel;
+import com.pusilkom.hris.model.AbsenModel;
 
 import java.util.List;
 

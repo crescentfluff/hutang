@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.ExecutiveMapper;
-import com.example.demo.model.ExecutiveModel;
+import com.pusilkom.hris.model.mapper.ExecutiveMapper;
+import com.pusilkom.hris.model.ExecutiveModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

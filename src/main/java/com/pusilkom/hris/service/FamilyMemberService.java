@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.FamilyMemberModel;
+import com.pusilkom.hris.model.FamilyMemberModel;
 
 import java.util.List;
 

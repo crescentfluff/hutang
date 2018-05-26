@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.KontrakMapper;
-import com.example.demo.model.KontrakModel;
+import com.pusilkom.hris.model.mapper.KontrakMapper;
+import com.pusilkom.hris.model.KontrakModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

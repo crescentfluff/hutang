@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.CutiMapper;
-import com.example.demo.model.CutiModel;
+import com.pusilkom.hris.model.mapper.CutiMapper;
+import com.pusilkom.hris.model.CutiModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

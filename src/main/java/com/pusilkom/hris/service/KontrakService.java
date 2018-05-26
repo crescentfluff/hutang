@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.KontrakModel;
+import com.pusilkom.hris.model.KontrakModel;
 
 import java.util.List;
 

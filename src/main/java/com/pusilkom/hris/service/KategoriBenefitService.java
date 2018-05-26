@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.KategoriModel;
+import com.pusilkom.hris.model.KategoriModel;
 
 import java.util.List;
 

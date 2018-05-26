@@ -1,8 +1,8 @@
 package com.pusilkom.hris.service;
 
 
-import com.example.demo.mapper.AbsenMapper;
-import com.example.demo.model.AbsenModel;
+import com.pusilkom.hris.model.mapper.AbsenMapper;
+import com.pusilkom.hris.model.AbsenModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

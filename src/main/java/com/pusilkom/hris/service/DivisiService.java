@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.DivisiModel;
+import com.pusilkom.hris.model.DivisiModel;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.ExecutiveModel;
+import com.pusilkom.hris.model.ExecutiveModel;
 
 import java.util.List;
 

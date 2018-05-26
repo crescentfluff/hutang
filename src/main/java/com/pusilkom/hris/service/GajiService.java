@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.GajiModel;
+import com.pusilkom.hris.model.GajiModel;
 
 import java.util.List;
 

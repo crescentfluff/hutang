@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.KehadiranMapper;
-import com.example.demo.model.KategoriModel;
+import com.pusilkom.hris.model.mapper.KehadiranMapper;
+import com.pusilkom.hris.model.KategoriModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

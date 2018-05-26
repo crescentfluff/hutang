@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.BenefitModel;
+import com.pusilkom.hris.model.BenefitModel;
 
 import java.util.List;
 

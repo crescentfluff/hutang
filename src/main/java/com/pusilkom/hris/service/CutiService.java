@@ -1,6 +1,6 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.model.CutiModel;
+import com.pusilkom.hris.model.CutiModel;
 
 import java.util.List;
 

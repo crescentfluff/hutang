@@ -1,7 +1,7 @@
 package com.pusilkom.hris.service;
 
-import com.example.demo.mapper.FamilyMemberMapper;
-import com.example.demo.model.FamilyMemberModel;
+import com.pusilkom.hris.model.mapper.FamilyMemberMapper;
+import com.pusilkom.hris.model.FamilyMemberModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

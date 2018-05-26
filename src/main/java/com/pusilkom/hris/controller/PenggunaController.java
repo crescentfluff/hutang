@@ -31,12 +31,19 @@ public class PenggunaController {
     @GetMapping("pengguna/kelola")
     public String kelolaPengguna (@NotNull Authentication auth, Model model){
         UserWeb login = (UserWeb)auth.getPrincipal();
+
         if (login.getUsername().equalsIgnoreCase(null))
             return "redirect:/login";
 
-        model.addAttribute("penggunaLogin", login);
+        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(login.getUsername());
 
-        for (String role: login.getRole()
+        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("penggunaLogin", penggunaLogin);
+
+        for (String role: penggunaLogin.getRole()
              ) {
             System.out.println("ROLE: "+role);
         }
@@ -76,7 +83,7 @@ public class PenggunaController {
     }
 
 
-    @RequestMapping("pengguna/tambah")
+    @GetMapping("pengguna/tambah")
     public String formAddPengguna (Principal principal, Model model) {
         if (principal == null) {
             return "redirect:/login";
@@ -116,7 +123,7 @@ public class PenggunaController {
         return "redirect:/pengguna/kelola?success=tambah";
     }
 
-    @RequestMapping(value="pengguna/ubah/{id}", method=RequestMethod.POST)
+    @PostMapping(value="pengguna/ubah/{id}")
     public String successUpdate (Principal principal, Model model, @ModelAttribute PenggunaModel pengguna, @PathVariable(value = "id") int id) {
         if (principal == null) {
             return "redirect:/login";
@@ -136,7 +143,7 @@ public class PenggunaController {
         return "redirect:/pengguna/kelola?success=ubah";
     }
 
-    @RequestMapping("pengguna/ubah/{id}")
+    @GetMapping("pengguna/ubah/{id}")
     public String updatePengguna (Principal principal, Model model, @PathVariable(value = "id") int id){
         if (principal == null) {
             return "redirect:/login";
@@ -159,7 +166,7 @@ public class PenggunaController {
             return "not-found";
     }
 
-    @RequestMapping("pengguna/status/{id}")
+    @GetMapping("pengguna/status/{id}")
     public String statusPengguna (Principal principal, Model model, @PathVariable(value="id") int id) {
         if (principal == null) {
             return "redirect:/login";

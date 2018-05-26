@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @ControllerAdvice
@@ -38,10 +39,13 @@ public class SiteController {
     public String getLoggedInUser(@NotNull Authentication auth) {
         UserWeb user = (UserWeb) auth.getPrincipal();
         String nama = user.getUsername();
+        System.out.println("loggedin: "+nama);
         return nama;
     }
     @ModelAttribute("loggedInTitle")
     public String getLoggedInTitle(@NotNull Authentication auth) {
-        return "Operator";
+        UserWeb user = (UserWeb) auth.getPrincipal();
+        String title = user.getRole().toString();
+        return title;
     }
 }

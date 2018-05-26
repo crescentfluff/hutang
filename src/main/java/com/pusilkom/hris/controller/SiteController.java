@@ -24,7 +24,7 @@ public class SiteController {
 //        model.addAttribute("currentUser", user);
         System.out.println("User : " + user.getUsername());
         for (GrantedAuthority author: user.getAuthorities()) {
-            System.out.println(author.getAuthority());
+            System.out.println("INI AUTHORITY: "+author.getAuthority());
         }
         return "site/index";
     }

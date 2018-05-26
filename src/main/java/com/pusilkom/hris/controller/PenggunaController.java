@@ -5,13 +5,11 @@ import com.pusilkom.hris.model.UserWeb;
 import com.pusilkom.hris.service.EmployeeService;
 import com.pusilkom.hris.service.PenggunaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -28,7 +26,9 @@ public class PenggunaController {
     @Autowired
     EmployeeService employeeDAO;
 
-    @RequestMapping("pengguna/kelola")
+
+    @PreAuthorize("hasAuthority('GET_PENGGUNA_KELOLA')")
+    @GetMapping("pengguna/kelola")
     public String kelolaPengguna (@NotNull Authentication auth, Model model){
         UserWeb login = (UserWeb)auth.getPrincipal();
         if (login.getUsername().equalsIgnoreCase(null))
@@ -51,7 +51,7 @@ public class PenggunaController {
         return "site/pengguna_kelola";
     }
 
-    @RequestMapping("pengguna/kelola/inactive")
+    @GetMapping("pengguna/kelola/inactive")
     public String kelolaPenggunaInactive (Principal principal, Model model){
         if (principal == null) {
             return "redirect:/login";

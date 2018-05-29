@@ -2,27 +2,26 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title> Kelola Pengguna </title>
-
     <meta name="robots" content="index, follow" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
     <meta name="language" content="en-EN" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="/js/bulma-calendar.min.js"></script>
     <script src="/js/bulma-calendar.js"></script>
     <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
     <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
-    <link rel="stylesheet" href="/css/bulma-checkradio.min.css"></link>
-    <link rel="stylesheet" href="/css/bulma-checkradio.sass"></link>
     <script src="/js/extension.js"></script>
     <link rel="stylesheet" href="/css/extension.sass"></link>
     <script src="/js/bulma-accordion.js"></script>
-    <link rel="stylesheet" href="../../static/css/bulma-accordion.min.css"></link>
-    <link rel="stylesheet" href="../../static/css/bulma-accordion.sass"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
     <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
@@ -36,25 +35,7 @@
     <script>
         $(document).ready(function() {
             $(".hapus").hide();
-            $('#EmployeeTable').DataTable({
-                "language" : {
-                    "sProcessing":   "Sedang memproses...",
-                    "sLengthMenu":   "Tampilkan _MENU_ entri",
-                    "sZeroRecords":  "Tidak ditemukan data yang sesuai",
-                    "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-                    "sInfoEmpty":    "Menampilkan 0 sampai 0 dari 0 entri",
-                    "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-                    "sInfoPostFix":  "",
-                    "sSearch":       "Cari:",
-                    "sUrl":          "",
-                    "oPaginate": {
-                        "sFirst":    "Pertama",
-                        "sPrevious": "Sebelumnya",
-                        "sNext":     "Selanjutnya",
-                        "sLast":     "Terakhir"
-                    }
-                }
-            });
+            $('#EmployeeTable').DataTable();
 
             $("#modal-hapus").click(function() {
                 $(".hapus").removeClass("is-active");
@@ -101,7 +82,7 @@
             </nav>
             <div class="columns">
                 <div class="column">
-                    <h1 style="font-size: 24px; font-weight: bold"> Kelola Pengguna
+                    <h1 style="font-weight: bold"> Kelola Pengguna
 
                         <a class="tooltip is-tooltip-bottom" data-tooltip="Tambah" style="font-size: 16px; color: #FFCF26;" th:href="'/pengguna/tambah/'">
                             <i class="fas fa-plus"></i>
@@ -112,14 +93,14 @@
 
             <div class="tabs is-medium">
                 <ul>
-                    <li class="is-active">
-                        <a >
+                    <li>
+                        <a th:href="'/pengguna/kelola/'">
                             <span class="icon is-small"><i class="fas fa-check" aria-hidden="true"></i></span>
                             <span>Active Pengguna</span>
                         </a>
                     </li>
-                    <li>
-                        <a th:href="'/pengguna/kelola/inactive'">
+                    <li class="is-active">
+                        <a>
                             <span class="icon is-small"><i class="fas fa-ban" aria-hidden="true"></i></span>
                             <span>Inactive Pengguna</span>
                         </a>
@@ -130,7 +111,7 @@
                 <thead>
                 <tr>
                     <th style="color: white; text-align:center; background-color: #F2994A"> No. </th>
-                    <th style="color: white; text-align:center; background-color: #F2994A"> Nama Karyawan</th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Nama Karyawan </th>
                     <th style="color: white; text-align:center; background-color: #F2994A"> Username </th>
                     <th style="color: white; text-align:center; background-color: #F2994A"> Atur</th>
                 </tr>
@@ -139,14 +120,14 @@
 
                 <tr th:each="pgn,iterStat: ${listpengguna}">
                     <th style="text-align:center" th:text="${iterStat.index}+1"> 1 </th>
-                    <th style="text-align:center" th:text="${pgn.nama}"> Namasaaya Seapaseh </th>
+                    <th style="text-align:center" th:text="${pgn.nama}"> </th>
                     <th style="text-align:center" th:text="${pgn.username}"> Aminur Muda </th>
-                    <th style="text-align:left">
+                    <th style="text-align:center">
                         <span th:switch="${pgn.is_aktif}">
-                        <span th:case="'1'"> <a class="tooltip is-tooltip-bottom" data-tooltip="Nonaktifkan" th:onclick="'javascript:showModalHapus(\''+ ${pgn.id} +'\');'" style="color: red">
+                        <span th:case="'1'"> <a class="tooltip is-tooltip-bottom" data-tooltip="Nonaktifkan" th:onclick="'javascript:showModalHapus(\''+ ${pgn.id} +'\');'" style="color: #0a0a0a">
                             <i class="fa fa-ban"></i></a>
                         </span>
-                        <span th:case="'0' "> <a class="tooltip is-tooltip-bottom" data-tooltip="Aktifkan" th:onclick="'javascript:showModalHapus(\''+ ${pgn.id} +'\');'" style="color: green">
+                        <span th:case="'0' "> <a class="tooltip is-tooltip-bottom" data-tooltip="Aktifkan" th:onclick="'javascript:showModalHapus(\''+ ${pgn.id} +'\');'" style="color: #00cd00">
                             <i class="fa fa-check"></i>
                         </a>
                         </span>
@@ -159,10 +140,6 @@
                 </tbody>
             </table>
 
-            <br>
-            <br>
-            <br>
-            <br>
         </main>
     </div>
 </div>
@@ -172,10 +149,10 @@
     <div class="modal-background"></div>
     <div class="modal-card has-text-centered">
         <section class="modal-card-body">
-            <h3>Ubah status Pengguna?</h3>
+            <h3>Apakah Anda yakin ingin mengaktifkan Pengguna ?</h3>
             <br>
-            <a id="confirmNonaktif" class="button is-success">Ya</a>
-            <button onclick="cancelModalHapus()" class="button is-danger">Tidak</button>
+            <a id="confirmNonaktif" class="button is-success">Aktifkan</a>
+            <button onclick="cancelModalHapus()" class="button is-danger">Batal</button>
         </section>
     </div>
 </div>

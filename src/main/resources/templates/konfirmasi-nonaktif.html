@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Konfirmasi Nonaktif </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#EmployeeTable').DataTable();
+        } );
+    </script>
+</head>
+
+<body>
+<header>
+    <header><div th:replace="fragments/fragment :: navbar"></div></header>
+</header>
+<!--
+<header class="hero is-light">
+    <div  class="hero-head">
+        <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+            <div style="background-color:rgb(255,207,38); height: 1rem" class="navbar-brand">
+                <a class="navbar-item is--brand">
+                    <h1 style="font-size: 24px"> MODUL<b>KARYAWAN</b> </h1>
+                </a>
+            </div>
+
+
+            <div style="background-color:rgb(255,207,38)" class="navbar-menu navbar-end" id="navMenu">
+                <a class="navbar-item is-tab is-hidden-tablet is-active">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <figure class="image is-32x32" style="margin-right:.5em; border-radius: 50px;">
+                            <img src="https://avatars1.githubusercontent.com/u/7221389?v=4&s=32">
+                        </figure>
+                        Karyawan (Default)
+                    </a>
+
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item">
+                            <span class="icon is-small"></span>
+                            Gabrielle Natasha S
+                        </a>
+                        <span class="icon is-small"></span>
+                        (gabrielle.natasha@gmail.com)
+                        <a class="navbar-item">
+                            <span class="icon is-small"></span>
+                            Ubah Profile
+                        </a>
+                        <a class="navbar-item">
+                            <span class="icon is-small"></span>
+                            Riwayat Absensi
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                          <span class="icon is-small">
+                            <i class="fa fa-power-off"></i>
+                          </span>
+                            Keluar
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+-->
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <!--
+        <aside style="background-color: rgb(81,81,81); width: 250px;" class="column is-3 aside">
+            <br>
+            <nav class="menu">
+                <div>
+                    <img style="width: 75px; margin-left: 80px" src="profil.png">
+                    <h1 style="color: white; font-size: 20px; text-align: center"> Gabrielle Natasha S</h1>
+                    <h1 style="color: white; text-align: center; font-size: 12px"> (gabrielle.natasha@gmail.com)</h1>
+                    <h3 style="text-align: center; font-size: 20px; color: #FFE035"> Ubah Profil </h3>
+                </div>
+                <br>
+                <br>
+                <ul class="menu-list" style="border-left: none; margin: 0px; padding-left:0px;">
+                    <li>
+                        <a style="font-size: 18px" class="active" href="#">
+                        <span class="icon is-small">
+                        <i class="fa fa-tachometer"></i></span> Cuti </a></li>
+                    <li>
+                        <a style="font-size: 18px" class="active" href="#">
+                        <span class="icon is-small">
+                        <i class="fa fa-tachometer"></i></span> Absensi </a></li>
+                    <li>
+                        <a style="font-weight: bold; font-size: 18px" class="active"th:href="'/employee/viewall'">
+                        <span class="icon is-small">
+                        <i class="fa fa-tachometer"></i></span> Kelola Employee </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+-->
+        <main class="column main">
+            <div class="columns">
+                <div class="column">
+                    <h3 style="font-size: 35px; font-weight: bold"> Konfirmasi Nonaktifkan Employee</h3>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="column">
+                <article class="message is-danger has-text-centered">
+                    <div class="message-header">
+                        <p>Warning</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        Anda ingin nonaktifkan <strong> <th th:text= "${employee.nama_lengkap}"> </strong> ?
+                        <br>
+                        <br>
+                            <span>
+                                <a th:href="'employee/viewall'" class="button is_link">Batal</a>
+                                <a th:href="'/employee/delete/' + ${employee.id_employee}" class="button is-danger">Nonaktifkan</a>
+                            </span>
+                    </div>
+
+                </article>
+            </div>
+            <!--
+            <div class="column">
+                <p style="font-size: 35px;"> Anda yakin ingin nonaktifkan <th th:text= "${employee.nama_lengkap}"></th> ? </p>
+            </div>
+
+            <div class="column">
+                <span style="margin-left: 150px">
+                    <a th:href="'employee/viewall'" class="button is_link">Batal</a>
+                    <a th:href="'/employee/delete/' + ${employee.id_employee}" class="button is-danger">Nonaktifkan</a>
+                </span>
+            </div>
+            -->
+            <br>
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

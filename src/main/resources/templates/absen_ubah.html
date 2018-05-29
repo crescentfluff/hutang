@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Ubah Absen </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -10px;
+        }
+    </style>
+
+
+    <script>
+        $(document).ready(function() {
+            $(".ubah").hide();
+            $(".notifUbah").hide();
+            $('#EmployeeTable').DataTable();
+
+            $("#modal-hapus").click(function() {
+                $(".ubah").removeClass("is-active");
+            });
+
+            $("#modal-hapus-cancel").click(function() {
+                console.log('masuk cuyyyy')
+                $(".ubah").hide();
+            });
+        } );
+
+        function showModalUbah() {
+            $(".ubah").show();
+
+        };
+
+        function cancelModalUbah() {
+            $(".ubah").hide();
+        };
+
+        function cancelModalNotif() {
+            $(".notifUbah").hide();
+        };
+
+    </script>
+</head>
+
+<body>
+<header>
+    <header><div th:replace="fragments/fragment :: navbar"></div></header>
+</header>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main" >
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >Karyawan</a></li>
+                    <li><a >Absen</a></li>
+                    <li><a aria-current="page">Ubah</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Ubah Absen </h1>
+                </div>
+            </div>
+            <form id="formUbah" class="field" action="/absen/ubah/submit" method="post" th:object="${absen}">
+                <div class="columns">
+                    <div class="column">
+                        <h3 style="font-weight: bold;">Tanggal Absen </h3>
+                    </div>
+                    <div class="column">
+                        <h3 th:text="':  ' + ${absen.tanggal_absen}" >  </h3>
+                    </div>
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                    </div>
+                    <div class="column">
+                    </div>
+
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal" style="float: left;">
+                        <label class="label" style="float: left">Kategori Kehadiran</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select" style="margin-left: -70px">
+                            <select th:field="*{id_kategori_kehadiran}">
+                                <option th:each="hadir : ${hadir}" th:value="${hadir.id_kategori}" th:text="${hadir.nama_kategori}">Hadir</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" style="float: left;">Keterangan</label>
+                    </div>
+                    <div class="field-body is-normal" style="float: left;">
+                        <textarea class="textarea" type="text" placeholder="Tuliskan Keterangan" style="margin-left: -70px" th:value="${absen.keterangan}" th:field="*{keterangan}"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="id_employee" th:value="${absen.id_absen}" th:field="*{id_absen}"/>
+                <!--
+                <label class="label" th:text="'Tanggal Absen                    ' + ${absen.tanggal_absen}">Tanggal Absen </label>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal" style="float: left;">
+                        <label class="label" style="float: left">Kategori Kehadiran Absen</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select" style="margin-left: -70px">
+                            <select th:field="*{id_kategori_kehadiran}">
+                                <option th:each="hadir : ${kehadiran}" th:value="${hadir.id_kategori}" th:text="${hadir.nama_kategori}">Hadir</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" style="float: left;">Keterangan</label>
+                    </div>
+                    <div class="field-body is-normal" style="float: left;">
+                        <textarea class="textarea is-primary" type="text" placeholder="Tuliskan Keterangan" style="margin-left: -70px" th:value="${absen.keterangan}" th:field="*{keterangan}"></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="id_employee" th:value="${absen.id_absen}" th:field="*{id_absen}"/>
+                -->
+            </form>
+
+            <div class="has-text-centered">
+                <button class="button is-success" type="submit" th:onclick="'javascript:showModalUbah();'">
+                    <span>Simpan</span>
+                </button>
+                <a class="button" href="/" >
+                    <span>Batal</span>
+                </a>
+            </div>
+            <!--<div class="has-text-centered" >-->
+                <!--<span style="margin-right: 200px">-->
+                    <!--<button type="button" class="button is-danger">Batal</button>-->
+                    <!--<button type="submit" class="button is-success" onclick="openConfirmationModal()">Simpan</button>-->
+                <!--</span>-->
+            <!--</div>-->
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+<div class="modal ubah is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menyimpan perubahan yang dilakukan ?</h3>
+            <br>
+            <a id="confirmNonaktif" class="button is-success" onclick="saveForm()">Simpan</a>
+            <button onclick="cancelModalUbah()" class="button">Batal</button>
+        </section>
+    </div>
+</div>
+<div th:if="${param.success}" class="modal notifUbah is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.success}"></span> Perubahan</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+<script>
+    document.addEventListener( 'DOMContentLoaded', function () {
+        var datePicker = new bulmaCalendar( document.getElementById( 'datepickerDemo' ), {
+            startDate: new Date(), // Date selected by default
+            dateFormat: 'yyyy-mm-dd', // the date format `field` value
+            lang: 'en', // internationalization
+            overlay: false,
+            closeOnOverlayClick: true,
+            closeOnSelect: true,
+            // callback functions
+            onSelect: null,
+            onOpen: null,
+            onClose: null,
+            onRender: null
+        } );
+    } );
+
+    $('#EmployeeTable').DataTable();
+
+    function saveForm() {
+        $('#formUbah').submit();
+    }
+</script>
+</body>
+</html>

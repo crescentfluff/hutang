@@ -62,8 +62,20 @@
       <file leaf-file-name="PenggunaController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/PenggunaController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1727">
-              <caret line="145" selection-start-line="145" selection-end-line="145" />
+
+            <state relative-caret-position="140">
+              <caret line="146" selection-start-line="146" selection-end-line="157" selection-end-column="22" />
+
+            </state>
+          </provider>
+        </entry>
+      </file>
+
+      <file leaf-file-name="pengguna_tambah.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_tambah.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -89,11 +101,22 @@
           </provider>
         </entry>
       </file>
+      
+      <file leaf-file-name="pengguna_ubah.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_ubah.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1970">
+              <caret line="135" column="62" lean-forward="true" selection-start-line="135" selection-end-line="136" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SiteController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/SiteController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="38" column="23" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
+            <state relative-caret-position="-265">
+              <caret line="25" column="32" lean-forward="true" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
+
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -200,17 +223,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/AuthController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/AuthItemService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/js/pengguna-tambah.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/pengguna_tambah.html" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/sidebar.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/model/UserWeb.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/fragments/fragment.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/EmployeeService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/EmployeeDatabase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/model/mapper/EmployeeMapper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/SiteController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/PenggunaController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/pengguna_ubah.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/model/mapper/PenggunaMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/PenggunaController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/SiteController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/pengguna_tambah.html" />
       </list>
     </option>
   </component>
@@ -305,24 +328,35 @@
               <item name="hutang" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
+
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="hris" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hutang" type="462c0819:PsiDirectoryNode" />
+              <item name="Template SSO" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hris" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="hris" type="b2602c69:ProjectViewProjectNode" />
-              <item name="hutang" type="462c0819:PsiDirectoryNode" />
+              <item name="Template SSO" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hris" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="fragments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hris" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Template SSO" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="site" type="462c0819:PsiDirectoryNode" />
+
             </path>
           </expand>
           <select />
@@ -495,8 +529,10 @@
       <workItem from="1527316757019" duration="1201000" />
       <workItem from="1527321328271" duration="1629000" />
       <workItem from="1527324108836" duration="3454000" />
+
       <workItem from="1527565991012" duration="13196000" />
       <workItem from="1527585774977" duration="146000" />
+
     </task>
     <task id="LOCAL-00001" summary="vcs">
       <created>1527325145254</created>
@@ -505,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527325145254</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fungsional pengguna dah jalan&#10;&#10;silahkan masukin controller masinng2 terus copy kode yang ada diantara &#10;//checking dan //end of check">
+      <created>1527584218573</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1527584218573</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -514,7 +557,9 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
+
     <option name="totallyTimeSpent" value="62709000" />
+
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -563,6 +608,41 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="2" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="2" />
+      <window_info anchor="bottom" id="Database Console" order="0" weight="0.28861153" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="Run" order="3" visible="true" weight="0.32605305" />
+      <window_info anchor="bottom" id="Spring" order="8" weight="0.32917318" />
+      <window_info id="Image Layers" order="3" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24940991" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32917318" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="14" side_tool="true" weight="0.32993197" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32917318" />
+      <window_info anchor="bottom" id="TODO" order="7" weight="0.32917318" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Java Enterprise" order="10" weight="0.32917318" />
+      <window_info anchor="bottom" id="Database Changes" order="13" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32917318" />
+      <window_info anchor="right" id="Maven Projects" order="9" weight="0.3296617" />
+      <window_info anchor="bottom" id="Find" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23524784" />
+      <window_info anchor="right" id="Database" order="5" visible="true" weight="0.24468923" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info id="Web" order="6" side_tool="true" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
+      <window_info anchor="right" id="Bean Validation" order="8" weight="0.3296617" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -572,7 +652,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vcs" />
-    <option name="LAST_COMMIT_MESSAGE" value="vcs" />
+    <MESSAGE value="fungsional pengguna dah jalan&#10;&#10;silahkan masukin controller masinng2 terus copy kode yang ada diantara &#10;//checking dan //end of check" />
+    <option name="LAST_COMMIT_MESSAGE" value="fungsional pengguna dah jalan&#10;&#10;silahkan masukin controller masinng2 terus copy kode yang ada diantara &#10;//checking dan //end of check" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -584,6 +665,7 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/PenggunaDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1095">
@@ -649,6 +731,7 @@
         </state>
       </provider>
     </entry>
+
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/FamilyMemberServiceDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -820,7 +903,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_tambah.html" />
+
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/bulma-accordion.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+
+
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/AuthItemService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -888,31 +976,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_ubah.html" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/SiteController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="38" column="23" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/PenggunaDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="79" column="57" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
+
     <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/model/mapper/PenggunaMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
+        <state relative-caret-position="330">
           <caret line="88" column="40" selection-start-line="88" selection-start-column="40" selection-end-line="88" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/db_sso_hehe.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3179">
+          <caret line="1064" selection-start-line="1064" selection-end-line="1064" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_kelola.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1980" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/service/PenggunaDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="79" column="57" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/SiteController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-265">
+          <caret line="25" column="32" lean-forward="true" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
+
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_ubah.html">
+      <provider selected="true" editor-type-id="text-editor">
+
+        <state relative-caret-position="1095">
+          <caret line="79" column="57" selection-start-line="79" selection-start-column="8" selection-end-line="79" selection-end-column="57" />
+
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/pusilkom/hris/controller/PenggunaController.java">
+      <provider selected="true" editor-type-id="text-editor">
+
+        <state relative-caret-position="140">
+          <caret line="146" selection-start-line="146" selection-end-line="157" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/pengguna_tambah.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+
         </state>
       </provider>
     </entry>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title> Pengguna </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css"></link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+    <link rel="stylesheet" href="/bulma-admin-dashboard-template/dist/main.css"></link>
+    <script src="https://code.jquery.com/jquery-1.12.4.js;"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js;"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <style>
+        body {
+            font-size: 14px;
+        }
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#EmployeeTable').DataTable();
+        } );
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<!--
+<header class="hero is-light">
+    <div  class="hero-head">
+        <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+            <div style="background-color:rgb(255,207,38); height: 1rem;" class="navbar-brand">
+                <a class="navbar-item is--brand">
+                    <h1 style="font-size: 24px"> MODUL<b>KARYAWAN</b> </h1>
+                </a>
+            </div>
+
+
+            <div style="background-color:rgb(255,207,38);" class="navbar-menu navbar-end" id="navMenu">
+                <a class="navbar-item is-tab is-hidden-tablet is-active">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <figure class="image is-32x32" style="margin-right:.5em; border-radius: 50px;">
+                            <img src="https://avatars1.githubusercontent.com/u/7221389?v=4&s=32">
+                        </figure>
+                        Administrator
+                    </a>
+
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item">
+                            <span class="icon is-small"></span>
+                            Gabrielle Natasha S
+                        </a>
+                        <span class="icon is-small"></span>
+                        (gabrielle.natasha@gmail.com)
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/role/pilih">
+                            <span class="icon is-small">
+                                <i class="fa fa-address-card"></i>
+                            </span>
+                            Ganti Role
+                        </a>
+
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            <span class="icon is-small">
+                                <i class="fa fa-power-off"></i>
+                            </span>
+                            Keluar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+-->
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <!--
+        <aside style="background-color: rgb(81,81,81); width: 250px; min-height: 720px;" class="column is-3 aside">
+            <br>
+            <nav class="menu">
+                <div>
+                    <img style="width: 90px; margin-left: 110px" src="profil.png">
+                    <h1 style="color: white; font-size: 20px; text-align: center"> Gabrielle Natasha S</h1>
+                    <h1 style="color: white; text-align: center"> (gabrielle.natasha@gmail.com)</h1>
+                    <h3 style="color: white; font-size: 20px; text-align: center"> Administrator </h3>
+
+                </div>
+                <br>
+                <br>
+                <ul class="menu-list">
+                    <li><a style="font-weight: bold; font-size: 18px" class="active" href="#"><span class="icon is-small"><i class="fa fa-tachometer"></i></span> Kelola Pengguna </a></li>
+                    <li><a style="font-size: 18px"  class="active" href="/divisi/ubah/1"><span class="icon is-small"><i class="fa fa-tachometer"></i></span> Kelola Divisi </a></li>
+                </ul>
+            </nav>
+        </aside>
+-->
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="#">Administrator</a></li>
+                    <li><a href="#" aria-current="page">Kelola Pengguna</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-size: 35px; font-weight: bold"> Kelola Pengguna </h1>
+                </div>
+            </div>
+
+            <h2 th:text="${message}">Sukses sesuatu</h2>
+            <a th:href="'/pengguna/kelola'"> Kembali</a>
+            <br>
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+</body>
+</html>

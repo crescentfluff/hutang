@@ -11,15 +11,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="/js/bulma-calendar.min.js"></script>
-    <script src="/js/bulma-calendar.js"></script>
-    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
-    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
     <link rel="stylesheet" href="/css/bulma-checkradio.min.css"></link>
     <link rel="stylesheet" href="/css/bulma-checkradio.sass"></link>
     <script src="/js/extension.js"></script>
     <link rel="stylesheet" href="/css/extension.sass"></link>
-    <script src="/js/bulma-accordion.js"></script>
+    <script src="../../static/js/bulma-accordion.js"></script>
     <link rel="stylesheet" href="../../static/css/bulma-accordion.min.css"></link>
     <link rel="stylesheet" href="../../static/css/bulma-accordion.sass"></link>
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
@@ -75,7 +71,7 @@
                     <img style="width: 75px; margin-left: 80px; margin-top: 30px;" src="/img/profil.png">
                     <p></p>
                     <a style="color: white; font-size:20px; margin-left: 50px" th:href="'/employee/profile/'" th:text="' ' + ${penggunaLogin.username}"> Gabrielle Natasha S</a>
-                    <h1 style="color: white; text-align: center; font-size: 12px" th:text="'(' + ${penggunaLogin.username} + ')'"> (gabrielle.natasha@gmail.com)</h1>
+                    <h1 style="color: white; text-align: center; font-size: 12px" th:text="'(' + ${loggedInTitle} + ')'"> (gabrielle.natasha@gmail.com)</h1>
                     <a style="padding-top: 10px; color: yellow; font-size:14px; margin-left: 70px" th:href="'/employee/profile/'" th:text="'Melihat Profil'"> Melihat Profil S</a>
                 </div>
                 <section class="accordions" style="padding-top: 50px">

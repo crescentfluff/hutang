@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link>
+    <title> Kelola Pengguna </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script >
+        $(document).ready(function() {
+            $(".hapus").hide();
+            $(".aktif").hide();
+            $('#EmployeeTable').DataTable({
+                columnDefs: [
+                    {targets: [2], orderable: false}
+                ]
+            });
+
+            $(".edButton").on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (kehadiran, status) {
+                    if (kehadiran.id_kategori==0) {
+                        $("#tipe").text("Tambah");
+                    } else {
+                        $("#tipe").text("Ubah");
+                    }
+                    $('.addForm #nama_kategori').val(kehadiran.nama_kategori);
+                    $('.addForm #id_kategori').val(kehadiran.id_kategori);
+                })
+                $('.addForm #addModal').addClass("is-active");
+            })
+        } );
+
+        function showModalHapus(id) {
+            $(".hapus").show();
+            $("#confirmNonaktif").attr("href", "/kategorikehadiran/hapus/?id=" + id);
+        };
+
+        function openConfirmationModal() {
+            if ($('.addForm #id_kategori').val()>=1) {
+                $(".addForm #addModal").removeClass("is-active");
+                $('.confirm').addClass("is-active");
+            } else {
+                saveForm();
+            }
+        }
+
+        function closeConfirmationModal() {
+            $('.confirm').removeClass("is-active");
+        }
+
+        function saveForm() {
+            $('#form1').submit();
+        }
+
+        function cancelModalHapus() {
+            $(".hapus").hide();
+            $("#confirmNonaktif").attr("href", "#");
+        };
+
+        function cancelModalAktif() {
+            $(".addForm #addModal").removeClass("is-active");
+        };
+
+        function cancelModalNotif() {
+            $(".notif").hide();
+        };
+
+
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+
+        <main class="column main">
+            <div class="container-fluid">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="#">Administrator</a></li>
+                    <li><a href="#" aria-current="page">Kelola Kategori Kehadiran</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Kelola Kategori Kehadiran
+                        <a class="tooltip is-tooltip-bottom edButton" data-tooltip="Tambah" style="font-size: 16px; color: #FFCF26;" th:href="@{/findHadir/(id=0)}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </h1>
+                </div>
+            </div>
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center" id="EmployeeTable">
+                <thead>
+                <tr>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> No. </th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Nama Kategori </th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Atur </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="kehadiran,iterStat: ${kehadiran}">
+                    <th style="text-align:center" th:text="${iterStat.index}+1"> 1 </th>
+                    <th style="text-align:center" th:text="${kehadiran.nama_kategori}"> </th>
+                    <th style="text-align:center; color: black;">
+                        <span th:href="@{/findHadir/(id=${kehadiran.id_kategori})}" class="edButton">
+                        <a class="tooltip is-tooltip-bottom" data-tooltip="Ubah">
+                            <i class="fa fa-pencil-alt" style="size: 24px; color: #000080;"></i>
+                        </a>
+                        </span>
+                        <span th:onclick="'javascript:showModalHapus(\''+ ${kehadiran.id_kategori} +'\');'">
+                            <a class="tooltip is-tooltip-bottom" data-tooltip="Hapus">
+                            <i class="fa fa-trash-alt" style="size: 24px; color: #FF0000"></i>
+                            </a>
+                        </span>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+
+    </div>
+</div>
+<footer>
+
+</footer>
+
+
+<div class="modal hapus is-active animated fadeIn">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <p>Anda yakin ingin menghapus kategori?</p>
+            <a id="confirmNonaktif" class="button is-danger">Hapus</a>
+            <button onclick="cancelModalHapus()" class="button">Batal</button>
+        </section>
+    </div>
+</div>
+
+
+<div th:if="${param.success}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.success}"></span> Kategori Benefit</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+
+
+<div class="addForm add"><br>
+    <div class="modal animated fadeIn" id="addModal">
+        <div class="modal-background"></div>
+        <div class="modal-card has-text-centered">
+            <header class="modal-card-head">
+                <p class="modal-card-title"><span id="tipe"></span> Kategori Baru</p>
+                <button class="delete" type="button" onclick="cancelModalAktif()" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                    <form id="form1" th:action="@{/kategorikehadiran/simpan}" method="post" th:object="${hadir}">
+                        <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                        <label class="label">Nama Kategori Kehadiran:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input" id="nama_kategori" name="nama_kategori" placeholder="Masukan nama kategori kehadiran baru">
+                                <input class="input" id="id_kategori" name="id_kategori" type="hidden">
+                            </p>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-success" onclick="openConfirmationModal()">Simpan</button>
+                <button type="button" onclick="cancelModalAktif()" class="button">Batal</button>
+            </footer>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal confirm">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menyimpan Perubahan yang dilakukan ?</h3>
+            <br>
+            <button type="button" class="button is-success" onclick="saveForm()">Simpan</button>
+            <button type="button" class="button" onclick="closeConfirmationModal()">Batal</button>
+        </section>
+    </div>
+</div>
+
+<div th:if="${param.gagal}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Gagal<span th:text="${param.gagal}"></span> Kategori Kehadiran</h3>
+            <p>Kategori Kehadiran tidak dapat dihapus karena telah dipakai</p>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

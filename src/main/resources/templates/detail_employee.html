@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Detil Karyawan </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main" >
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a th:href="'/employee/add'" style="font-size: 15px">Kelola Employee</a></li>
+                    <li><a href="#" style="font-size: 15px"; aria-current="page">Detil Profil Employee</a></li>
+                </ul>
+            </nav>
+            <div class="columns" >
+                <div class="column">
+                    <h1 style="text-align: center; font-size: 35px; font-weight: bold">
+                        <th th:text= "${employee.nama_lengkap}"></th>
+                    </h1>
+                </div>
+
+                <div class="column">
+                </div>
+            </div>
+            <br>
+
+            <form id="formDataDiri" class="field" th:action="'/employee/profile/ubah'" method="post" th:object="${employee}">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">NIP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.nip}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nama Karyawan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.nama_lengkap}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label" >Divisi</label>
+                    </div>
+                    <div class="field-body">
+                        <p style="margin-top: 5px" th:text="${divisiEmployee.nama_divisi}"></p>
+                    </div>
+                </div>
+                <label class="label" style="font-size: 25px; font-weight: bold; color:#FFCF26 ">Data Pribadi</label>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Jenis Kelamin</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:if="${employee.jenis_kelamin} == 0"> Laki-Laki </p>
+                        <p style="margin-top: 5px" th:if="${employee.jenis_kelamin} == 1"> Perempuan </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tempat Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.tempat_lahir}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tanggal Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.tanggal_lahir}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat Tinggal</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.alamat_tinggal}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.alamat_ktp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">E-mail Kantor</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.email_kantor}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">E-mail Pribadi</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.email_pribadi}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Rumah</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_rumah}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Darurat</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_darurat}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor HP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_seluler}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Kesehatan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_bpjs_kesehatan}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Tenaga Kerja</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_bpjs_tenaga_kerja}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">NPWP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.npwp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_ktp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Kewarganegaraan</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <p style="margin-top: 5px" th:if="${employee.kewarganegaraan} == 0"> WNA </p>
+                        <p style="margin-top: 5px" th:if="${employee.kewarganegaraan} == 1"> WNI </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Agama</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.agama}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Status Perkawinan</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <p style="margin-top: 5px" th:if="${employee.status_kawin} == 0"> Belum Menikah </p>
+                        <p style="margin-top: 5px" th:if="${employee.status_kawin} == 1"> Menikah </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_rekening}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Bank Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.bank_rekening}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Atas Nama Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.atas_nama_rekening}"></p>
+                    </div>
+                </div>
+                <div class="has-text-centered" >
+                        <span style="margin-right: 200px">
+                            <a class="button is-success is-hovered" type="submit" onclick="saveForm()">Ubah Data Diri</a>
+                        </span>
+                </div>
+            </form>
+            <br>
+            <br>
+            <label class="label" style="font-size: 25px; font-weight: bold; color:#FFCF26 ">Riwayat Gaji
+                <button onclick="hideGaji()" class="button is-small is-outlined"><i class="fa fa-eye" ></i></button>
+            </label>
+            <div class="column" id="hideGaji">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center">
+                    <thead>
+                    <tr>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Tanggal Aktif </th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Nominal </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="gajiItem,iterationStatus: ${gaji}">
+                        <th style="text-align:center" th:text="${gajiItem.tanggal_aktif}">  </th>
+                        <th style="text-align:center" th:text="${gajiItem.nominal}">  </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <label class="label" style="font-size: 25px; font-weight: bold; color:#FFCF26 ">Komponen Benefit
+                <button onclick="hideBenefit()" class="button is-small is-outlined"><i class="fa fa-eye" ></i></button>
+            </label>
+            <div class="column" id="hideBenefit">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center" >
+                    <thead>
+                    <tr>
+                        <th style="color: white; text-align:center; background-color: #F2994A">Kategori Benefit </th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Nominal Benefit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="benefitItem,iterationStatus: ${benefit}">
+                        <th style="text-align:center" th:text="${benefitItem.nama_kategori_benefit}">  </th>
+                        <th style="text-align:center" th:text="${benefitItem.nominal_benefit}">  </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <label class="label" style="font-size: 25px; font-weight: bold; color:#FFCF26 ">Kontrak
+                <button onclick="hideKontrak()" class="button is-small is-outlined"><i class="fa fa-eye" ></i></button>
+            </label>
+            <div class="column" id="hideKontrak">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center">
+                    <thead>
+                    <tr>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Tanggal Awal </th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Tanggal Akhir</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="kontrak,iterationStatus: ${kontrak}">
+                        <th style="text-align:center" th:text="${kontrak.tanggal_awal}">  </th>
+                        <th style="text-align:center" th:text="${kontrak.tanggal_akhir}">  </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <label class="label" style="font-size: 25px; font-weight: bold; color:#FFCF26 ">Anggota Keluarga
+                <button onclick="hideKeluarga()" class="button is-small is-outlined"><i class="fa fa-eye" ></i></button>
+            </label>
+            <div class="column" id="hideKeluarga">
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center">
+                    <thead>
+                    <tr>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Nama Lengkap </th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Hubungan</th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Tempat Lahir</th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Tanggal Lahir</th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Nomor KTP</th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> NPWP</th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Ubah </th>
+                        <th style="color: white; text-align:center; background-color: #F2994A"> Hapus </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr  th:each="familyMember,iterationStatus: ${familyMember}">
+                        <th style="text-align:center" th:text="${familyMember.nama_lengkap}">  </th>
+                        <th style="text-align:center" th:text="${familyMember.hubungan}">  </th>
+                        <th style="text-align:center" th:text="${familyMember.tempat_lahir}"> </th>
+                        <th style="text-align:center" th:text="${familyMember.tanggal_lahir}"> </th>
+                        <th style="text-align:center" th:text="${familyMember.no_ktp}"> </th>
+                        <th style="text-align:center" th:text="${familyMember.npwp}"> </th>
+                        <th style="text-align:center">
+                            <span class="icon is-small">
+                                <a class="tooltip is-tooltip-bottom" data-tooltip="Ubah" style="font-size: 16px; color: #000080;" th:href="'anggotaKeluarga/update/' + ${familyMember.id_family_member}">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            </span>
+                            <!--
+                            <a th:href="'/benefit/update/' + ${benefitItem.id_benefit}" class="button is-info">Ubah</a>
+                            -->
+                        </th>
+                        <th style="text-align:center">
+                            <span class="icon is-small">
+                                <a class="tooltip is-tooltip-bottom" data-tooltip="Hapus" style="font-size: 16px; color: #FF0000;" th:onclick="'javascript:showModalHapusKeluarga(\''+ ${familyMember.id_family_member} +'\');'">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </span>
+                            <!--
+                            <button class="button is-danger is-hovered" th:onclick="'javascript:showModalHapusBenefit(\''+ ${benefitItem.id_benefit} +'\');'">Hapus</button>
+                            -->
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="has-text-centered" >
+                        <span style="margin-right: 200px">
+                            <a class="button is-success is-hovered" th:href="'/employee/profile/anggotaKeluarga/add'">Tambah Anggota Keluarga Baru</a>
+                        </span>
+                </div>
+            </div>
+
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(".hapusKeluarga").hide();
+    });
+
+    function hideGaji() {
+        var x = document.getElementById("hideGaji");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function hideBenefit() {
+        var x = document.getElementById("hideBenefit");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function hideKontrak() {
+        var x = document.getElementById("hideKontrak");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function hideKeluarga() {
+        var x = document.getElementById("hideKeluarga");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function showModalHapusKeluarga(id) {
+        $(".hapusKeluarga").show();
+        $("#confirmNonaktifKeluarga").attr("href", "/employee/profile/anggotaKeluarga/delete/"  + id);
+    };
+    function cancelModalHapusKeluarga() {
+        $(".hapusKeluarga").hide();
+        $("#confirmNonaktifKeluarga").attr("href", "#");
+    };
+    function cancelModalNotif() {
+        $(".notif").hide();
+    };
+    function saveForm() {
+        $('#formDataDiri').submit();
+    };
+    $( function() {
+        $( "#datepicker" ).datepicker();
+    } );
+</script>
+<div class="modal hapusKeluarga is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menghapus anggota keluarga?</h3>
+            <br>
+            <a id="confirmNonaktifKeluarga" class="button is-danger">Hapus</a>
+            <button onclick="cancelModalHapusKeluarga()" class="button">Batal</button>
+        </section>
+    </div>
+</div>
+<div th:if="${param.success}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.success}"></span> karyawan</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+<div th:if="${param.successAnggotaKeluarga}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.successAnggotaKeluarga}"></span> Anggota Keluarga</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+<div th:if="${param.successTambahAnggotaKeluarga}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.successTambahAnggotaKeluarga}"></span> Anggota Keluarga</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+<div th:if="${param.successUbahAnggotaKeluarga}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.successUbahAnggotaKeluarga}"></span> Anggota Keluarga</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ package com.pusilkom.hris.controller;
 
 import com.pusilkom.hris.model.CutiModel;
 import com.pusilkom.hris.model.EmployeeModel;
+import com.pusilkom.hris.model.PenggunaModel;
 import com.pusilkom.hris.model.UserWeb;
 import com.pusilkom.hris.service.AbsenService;
 import com.pusilkom.hris.service.CutiService;
@@ -135,7 +136,8 @@ public class CutiController {
         }
         //end of check
 
-        int id_employee = penggunaLogin.getEmployee().getId_employee();
+        PenggunaModel pgn = penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername());
+        int id_employee = pgn.getId_employee();
 
         List<CutiModel> cuti = cutiDAO.selectAllCutiAEmployee(id_employee);
         EmployeeModel employee = employeeDAO.selectEmployee(id_employee);
@@ -159,7 +161,8 @@ public class CutiController {
         }
         //end of check
 
-        int id_employee = penggunaLogin.getEmployee().getId_employee();
+        PenggunaModel pgn = penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername());
+        int id_employee = pgn.getId_employee();
         CutiModel cuti = cutiDAO.detailCutiEmployee(id_employee, id_cuti);
         System.out.println(cuti.getKet_penolakan());
         model.addAttribute("cuti", cuti);

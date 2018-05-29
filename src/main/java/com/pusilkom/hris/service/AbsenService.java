@@ -1,6 +1,7 @@
 package com.pusilkom.hris.service;
 
 import com.pusilkom.hris.model.AbsenModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 

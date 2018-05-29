@@ -1,13 +1,13 @@
 package com.pusilkom.hris.model;
 
 import lombok.Data;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class UserWeb extends User {
@@ -18,19 +18,19 @@ public class UserWeb extends User {
     public UserWeb(String username, String password, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attribute) {
         super(username, password, authorities);
         this.attributes = attribute;
-            role = new ArrayList<>();
-        String[] roles= authorities.toString().split(",");
+        role = new ArrayList<>();
+        String[] roles = authorities.toString().split(",");
         for (String r : roles
-             ) {
+                ) {
             if (!r.contains("USER")) {
-                if (r.contains("["))
+                if (r.contains("[")) {
                     role.add(r.substring(1));
-                else role.add(r);
+                } else {
+                    role.add(r);
+                }
             }
         }
-
     }
-
     public UserWeb(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }

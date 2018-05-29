@@ -23,6 +23,7 @@ public class ExtendedCasAssertionUserDetailService extends AbstractCasAssertionU
     private final String[] attributes;
     private final Collection<? extends GrantedAuthority> defaultGrantedAuthorities;
     private boolean toUppercase = true;
+    private List<String> roles;
 
     AuthItemService authItemService;
 
@@ -39,7 +40,7 @@ public class ExtendedCasAssertionUserDetailService extends AbstractCasAssertionU
         if (!StringUtils.hasText(username)) {
             throw new UsernameNotFoundException("Unable to retrieve username from CAS assertion");
         } else {
-            List<String> roles = new ArrayList<>();
+            roles = new ArrayList<>();
             List<GrantedAuthority> authorities = (List) Arrays.stream(this.attributes).map((a) -> {
                 return assertion.getPrincipal().getAttributes().get(a);
             }).filter(Objects::nonNull).flatMap((v) -> {
@@ -61,6 +62,7 @@ public class ExtendedCasAssertionUserDetailService extends AbstractCasAssertionU
                 List<String> listAuthItem = authItemService.getAllChildNameByParentId(role);
 
                 for (String authItem : listAuthItem) {
+                    System.out.println("ROLETWTTTTTT=="+authItem);
                     authorities.add(new SimpleGrantedAuthority(authItem));
                 }
             }
@@ -68,5 +70,9 @@ public class ExtendedCasAssertionUserDetailService extends AbstractCasAssertionU
             logger.debug("authorities == "+authorities);
             return new UserWeb(username, NON_EXISTENT_PASSWORD_VALUE, authorities, assertion.getPrincipal().getAttributes());
         }
+    }
+
+    public List<String> getRoles(){
+        return roles;
     }
 }

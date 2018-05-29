@@ -4,20 +4,21 @@ package com.pusilkom.hris.controller;
 
 import com.pusilkom.hris.model.AbsenModel;
 import com.pusilkom.hris.model.KategoriModel;
+import com.pusilkom.hris.model.PenggunaModel;
 import com.pusilkom.hris.model.UserWeb;
 import com.pusilkom.hris.service.AbsenService;
 import com.pusilkom.hris.service.KehadiranService;
 import com.pusilkom.hris.service.PenggunaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -32,20 +33,52 @@ public class AbsenController {
     @Autowired
     KehadiranService kehadiranDAO;
 
-    @RequestMapping("/")
-    public String index(@NotNull Authentication auth, Model model) {
-        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
-        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+//    @RequestMapping("/")
+//    public String index(@NotNull Authentication auth, Model model) {
+//        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+//        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+//        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
+//            return "redirect:/login";
+//        }
+//        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+//            return "redirect:/logout";
+//        }
+//        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+//            return "redirect:/";
+//        }
+//        //end of check
+//    }
+
+    @GetMapping("/")
+    public String index(Model model, @NotNull Authentication auth) {
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
         if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
         else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
             return "redirect:/logout";
         }
-        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
-            return "redirect:/";
-        }
         //end of check
+
+        System.out.println("User : " + penggunaLogin.getUsername());
+        for (String r: penggunaLogin.getRole()) {
+            System.out.println("INI AUTHORITY: "+r);
+        }
+
+        PenggunaModel pgn = penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername());
+        List<AbsenModel> absen = absenDAO.selectAllAbsen(pgn.getId_employee());
+        model.addAttribute("kehadiran", kehadiranDAO.selectAllKehadiran());
+
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate localDate = LocalDate.now();
+        System.out.println("TANGGAL "+dtf.format(localDate));
+
+        AbsenModel today = new AbsenModel();
+        model.addAttribute("newAbsen", today);
+
+        return "absen_final";
     }
 
     @RequestMapping("/absen/kelola/final")
@@ -63,8 +96,15 @@ public class AbsenController {
         }
         //end of check
 
-        model.addAttribute("newAbsen", new AbsenModel());
-        List<AbsenModel> absen = absenDAO.selectAllAbsen(penggunaLogin.getEmployee().getId_employee());
+        PenggunaModel pgn = penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername());
+        List<AbsenModel> absen = absenDAO.selectAllAbsen(pgn.getId_employee());
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.now();
+        System.out.println("TANGGAL "+dtf.format(localDate));
+
+        AbsenModel today = new AbsenModel();
+        model.addAttribute("newAbsen", today);
 
         model.addAttribute("kehadiran", kehadiranDAO.selectAllKehadiran());
 
@@ -89,7 +129,8 @@ public class AbsenController {
         //end of check
 
         model.addAttribute("newAbsen", new AbsenModel());
-        List<AbsenModel> absen = absenDAO.selectAllAbsenInactive(penggunaLogin.getEmployee().getId_employee());
+        PenggunaModel pgn = penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername());
+        List<AbsenModel> absen = absenDAO.selectAllAbsenInactive(pgn.getId_employee());
 
         model.addAttribute("kehadiran", kehadiranDAO.selectAllKehadiran());
 

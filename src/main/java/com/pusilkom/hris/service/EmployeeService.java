@@ -1,6 +1,7 @@
 package com.pusilkom.hris.service;
 
 import com.pusilkom.hris.model.EmployeeModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -23,5 +24,6 @@ public interface EmployeeService {
 
     void activateEmployee(int id_employee);
 
+//    @PreAuthorize("hasRole('ROLE_KARYAWAN')")
     EmployeeModel selectEmployeeByUsername(String username);
 }

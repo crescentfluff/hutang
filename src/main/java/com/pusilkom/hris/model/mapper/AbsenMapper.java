@@ -63,7 +63,7 @@ public interface AbsenMapper {
     @Insert("INSERT INTO absen (id_employee, tanggal_absen, id_kategori_kehadiran, keterangan) VALUES (#{id_employee}, #{tanggal_absen}::DATE, #{id_kategori_kehadiran}, #{keterangan})")
     void addAbsen(AbsenModel absen);
 
-    @Select("SELECT id_employee FROM penggunaemployee where username=#{username}")
+    @Select("SELECT id_employee FROM pengguna where username=#{username}")
     int selectIdByUsername(String username);
 
     @Delete("delete from absen where id_absen = #{id_absen}")

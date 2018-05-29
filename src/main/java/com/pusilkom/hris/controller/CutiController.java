@@ -1,12 +1,16 @@
-package com.example.demo.controller;
+package com.pusilkom.hris.controller;
 
 
-import com.example.demo.model.*;
-import com.example.demo.service.AbsenService;
-import com.example.demo.service.CutiService;
-import com.example.demo.service.EmployeeService;
-import com.example.demo.service.PenggunaService;
+
+import com.pusilkom.hris.model.CutiModel;
+import com.pusilkom.hris.model.EmployeeModel;
+import com.pusilkom.hris.model.UserWeb;
+import com.pusilkom.hris.service.AbsenService;
+import com.pusilkom.hris.service.CutiService;
+import com.pusilkom.hris.service.EmployeeService;
+import com.pusilkom.hris.service.PenggunaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,12 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -38,17 +40,19 @@ public class CutiController {
     PenggunaService penggunaDAO;
 
     @RequestMapping("/cuti/viewall")
-    public String view (Principal principal, Model model) {
-        if (principal == null) {
+    public String view (@NotNull Authentication auth, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         List<CutiModel> cuti = cutiDAO.selectAllCuti();
         model.addAttribute("cuti", cuti);
@@ -56,17 +60,19 @@ public class CutiController {
     }
 
     @RequestMapping("/cuti/detail/{id_cuti}")
-    public String view (Principal principal, Model model, @PathVariable(value = "id_cuti") int id_cuti) {
-        if (principal == null) {
+    public String view (@NotNull Authentication auth, Model model, @PathVariable(value = "id_cuti") int id_cuti) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         CutiModel cuti = cutiDAO.detailCuti(id_cuti);
         model.addAttribute("cuti", cuti);
@@ -74,17 +80,19 @@ public class CutiController {
     }
 
     @RequestMapping(value = "/cuti/update/submit/terima",method = RequestMethod.POST)
-    public String terimaSubmit (Principal principal, @ModelAttribute CutiModel cuti, Model model) throws ParseException {
-        if (principal == null) {
+    public String terimaSubmit (@NotNull Authentication auth, @ModelAttribute CutiModel cuti, Model model) throws ParseException {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
         cuti.setUsername_pereview(penggunaLogin.getUsername());
         cuti.setStatus("1");
         cutiDAO.updateCuti(cuti);
@@ -93,17 +101,19 @@ public class CutiController {
     }
 
     @RequestMapping(value = "/cuti/update/submit/tolak",method = RequestMethod.POST)
-    public String tolakSubmit (Principal principal, @ModelAttribute CutiModel cuti, Model model) {
-        if (principal == null) {
+    public String tolakSubmit (@NotNull Authentication auth, @ModelAttribute CutiModel cuti, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
         cuti.setUsername_pereview(penggunaLogin.getUsername());
         cuti.setStatus("2");
         cutiDAO.updateCuti(cuti);
@@ -111,17 +121,19 @@ public class CutiController {
     }
 
     @RequestMapping("/listCuti")
-    public String listCuti (Principal principal, Model model){
-        if (principal == null) {
+    public String listCuti (@NotNull Authentication auth, Model model){
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         int id_employee = penggunaLogin.getEmployee().getId_employee();
 
@@ -133,17 +145,19 @@ public class CutiController {
     }
 
     @RequestMapping("/listCuti/detail/{id_cuti}")
-    public String keteranganCuti (Principal principal, Model model, @PathVariable(value = "id_cuti") int id_cuti){
-        if (principal == null) {
+    public String keteranganCuti (@NotNull Authentication auth, Model model, @PathVariable(value = "id_cuti") int id_cuti){
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         int id_employee = penggunaLogin.getEmployee().getId_employee();
         CutiModel cuti = cutiDAO.detailCutiEmployee(id_employee, id_cuti);
@@ -153,17 +167,19 @@ public class CutiController {
     }
 
     @RequestMapping(value = "listCuti/formCuti" , method = RequestMethod.POST)
-    public String formCuti (Principal principal, @ModelAttribute("employee")EmployeeModel employee, Model model) {
-        if (principal == null) {
+    public String formCuti (@NotNull Authentication auth, @ModelAttribute("employee")EmployeeModel employee, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         int id_employee = employee.getId_employee();
         EmployeeModel employeeApply = employeeDAO.selectEmployee(id_employee);
@@ -173,17 +189,19 @@ public class CutiController {
     }
 
     @RequestMapping(value = "listCuti/formCuti/submit" , method = RequestMethod.POST)
-    public String submitCuti (Principal principal, @ModelAttribute("cuti")CutiModel cuti, Model model) {
-        if (principal == null) {
+    public String submitCuti (@NotNull Authentication auth, @ModelAttribute("cuti")CutiModel cuti, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
         cutiDAO.addCuti(cuti.getId_employee(), cuti.getTanggal_awal(), cuti.getTanggal_akhir() ,cuti.getKet_cuti());
         EmployeeModel employee = employeeDAO.selectEmployee(cuti.getId_employee());
         model.addAttribute("employee", employee);

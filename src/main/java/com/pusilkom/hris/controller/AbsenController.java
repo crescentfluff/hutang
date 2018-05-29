@@ -1,14 +1,15 @@
-package com.example.demo.controller;
+package com.pusilkom.hris.controller;
 
 
-import com.example.demo.model.AbsenModel;
-import com.example.demo.model.KategoriModel;
-import com.example.demo.model.PenggunaModel;
-import com.example.demo.model.RolePengguna;
-import com.example.demo.service.AbsenService;
-import com.example.demo.service.KehadiranService;
-import com.example.demo.service.PenggunaService;
+
+import com.pusilkom.hris.model.AbsenModel;
+import com.pusilkom.hris.model.KategoriModel;
+import com.pusilkom.hris.model.UserWeb;
+import com.pusilkom.hris.service.AbsenService;
+import com.pusilkom.hris.service.KehadiranService;
+import com.pusilkom.hris.service.PenggunaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
@@ -35,26 +33,35 @@ public class AbsenController {
     KehadiranService kehadiranDAO;
 
     @RequestMapping("/")
-    public String index(Principal principal, Model model) {
-        if (principal == null) {
+    public String index(@NotNull Authentication auth, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        return "redirect:/absen/kelola";
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
     }
 
     @RequestMapping("/absen/kelola/final")
-    public String viewFinal (Principal principal, Model model) {
-        if (principal == null) {
+    public String viewFinal (@NotNull Authentication auth, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         model.addAttribute("newAbsen", new AbsenModel());
         List<AbsenModel> absen = absenDAO.selectAllAbsen(penggunaLogin.getEmployee().getId_employee());
@@ -67,17 +74,19 @@ public class AbsenController {
     }
 
     @RequestMapping("/absen/kelola")
-    public String view (Principal principal, Model model) {
-        if (principal == null) {
+    public String view (@NotNull Authentication auth, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         model.addAttribute("newAbsen", new AbsenModel());
         List<AbsenModel> absen = absenDAO.selectAllAbsenInactive(penggunaLogin.getEmployee().getId_employee());
@@ -90,13 +99,19 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absen/ubah/{id_absen}", method = RequestMethod.GET)
-    public String update(Principal principal, Model model, @PathVariable(value = "id_absen") int id_absen) {
-        if (principal == null) {
+    public String update(@NotNull Authentication auth, Model model, @PathVariable(value = "id_absen") int id_absen) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
 
         AbsenModel absen = absenDAO.detailAbsen(id_absen);
         model.addAttribute("absen", absen);
@@ -106,13 +121,19 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absen/ubah/submit", method = RequestMethod.POST)
-    public String updateSubmit (Principal principal, @ModelAttribute AbsenModel absenUbah, Model model) {
-        if (principal == null) {
+    public String updateSubmit (@NotNull Authentication auth, @ModelAttribute AbsenModel absenUbah, Model model) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
 
         AbsenModel absen = absenDAO.detailAbsen(absenUbah.getId_absen());
         absen.setId_kategori_kehadiran(absenUbah.getId_kategori_kehadiran());
@@ -122,19 +143,21 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absensi/tambah/submit", method = RequestMethod.POST)
-    public String tambahSubmit (Principal principal, Model model, @ModelAttribute("newAbsen") AbsenModel newAbsen)
+    public String tambahSubmit (@NotNull Authentication auth, Model model, @ModelAttribute("newAbsen") AbsenModel newAbsen)
     {
-        //SimpleDateFormat  formatter = new SimpleDateFormat("yyyy-mm-dd");
-        if (principal == null) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
-            return "redirect:/absen/kelola";
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
+
         int id_employee = absenDAO.selectIdByUsername(penggunaLogin.getUsername());
         newAbsen.setId_employee(id_employee);
         if(absenDAO.cekAbsen(newAbsen) == null){
@@ -148,13 +171,19 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absen/finalisasi/{id_absen}", method = RequestMethod.GET)
-    public String viewUpdate (Principal principal, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel finalisasi) {
-        if (principal == null) {
+    public String viewUpdate (@NotNull Authentication auth, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel finalisasi) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
 
 
         AbsenModel absen = absenDAO.detailAbsen(id_absen);
@@ -164,13 +193,19 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absen/unfinalized/{id_absen}", method = RequestMethod.GET)
-    public String viewUnfinalized (Principal principal, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel unfinalisasi) {
-        if (principal == null) {
+    public String viewUnfinalized (@NotNull Authentication auth, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel unfinalisasi) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
 
 
         AbsenModel absen = absenDAO.detailAbsen(id_absen);
@@ -180,17 +215,19 @@ public class AbsenController {
     }
 
     @RequestMapping(value = "/absen/hapus/{id_absen}", method = RequestMethod.GET)
-    public String viewDelete (Principal principal, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel delete) {
-        if (principal == null) {
+    public String viewDelete (@NotNull Authentication auth, Model model, @PathVariable(value = "id_absen") int id_absen, @ModelAttribute AbsenModel delete) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
-            return "redirect:/absen/kelola";
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        else if (!penggunaLogin.getRole().contains("ROLE_EMPLOYEE")) {
+            return "redirect:/";
+        }
+        //end of check
 
 
         AbsenModel absen = absenDAO.detailAbsen(id_absen);

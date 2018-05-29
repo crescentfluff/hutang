@@ -1,17 +1,19 @@
-package com.example.demo.controller;
+package com.pusilkom.hris.controller;
 
-import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
-import com.example.demo.model.*;
-import com.example.demo.service.*;
+
+import com.pusilkom.hris.model.*;
+import com.pusilkom.hris.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.constraints.NotNull;
 
 
 @Controller
@@ -33,17 +35,19 @@ public class ExecutiveController {
     DivisiService divisiDAO;
 
     @RequestMapping(value = "/summary/{bulan}", method=RequestMethod.GET)
-    public String chart(Principal principal,Model model, @PathVariable(value = "bulan") int bulan) {
-        if (principal == null) {
+    public String chart(@NotNull Authentication auth, Model model, @PathVariable(value = "bulan") int bulan) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EXECUTIVE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         List<ExecutiveModel> listExe = executiveDAO.selectAllEmployee();
         int[] chartValue = new int[listExe.size()];
@@ -72,17 +76,19 @@ public class ExecutiveController {
     }
 
     @RequestMapping(value = "/summary/allemployee/{nama_divisi}", method = RequestMethod.GET)
-    public String view (Principal principal, Model model, @PathVariable(value = "nama_divisi") String nama_divisi) {
-        if (principal == null) {
+    public String view (@NotNull Authentication auth, Model model, @PathVariable(value = "nama_divisi") String nama_divisi) {
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_HR) && !penggunaLogin.getRoles().contains(RolePengguna.ROLE_EXECUTIVE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EXECUTIVE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         List<ExecutiveModel> listEmployeeByDivisi = executiveDAO.selectEmployeeByDivisi(nama_divisi);
         model.addAttribute("listEmployeeByDivisi",listEmployeeByDivisi);
@@ -90,17 +96,19 @@ public class ExecutiveController {
     }
 
     @RequestMapping("/summary/employee/profile/{id_employee}/{bulan}")
-    public String view (Principal principal, Model model ,@PathVariable(value = "id_employee") int id_employee, @PathVariable(value = "bulan") int bulan){
-        if (principal == null) {
+    public String view (@NotNull Authentication auth, Model model ,@PathVariable(value = "id_employee") int id_employee, @PathVariable(value = "bulan") int bulan){
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRoles().contains(RolePengguna.ROLE_EMPLOYEE)) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_EXECUTIVE")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         EmployeeModel employee = employeeDAO.selectEmployee(id_employee);
         DataDiriModel dataDiriEmployee = dataDiriDAO.selectDataDiri(id_employee);

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface KontrakService {
 
-    @PreAuthorize("hasRole('ROLE_HR')")
+    @PreAuthorize("hasAnyRole('ROLE_HR','ROLE_EMPLOYEE')")
     List<KontrakModel> selectAllKontrakEmployee(int id_employee);
 
     @PreAuthorize("hasAnyRole('ROLE_HR','ROLE_EMPLOYEE')")

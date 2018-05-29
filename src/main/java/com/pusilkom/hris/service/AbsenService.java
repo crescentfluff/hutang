@@ -9,7 +9,6 @@ public interface AbsenService {
 
     List<AbsenModel> selectAllAbsen(int id_employee);
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<AbsenModel> selectAllAbsenInactive(int id_employee);
 
     void finalizedAbsen(AbsenModel absen);

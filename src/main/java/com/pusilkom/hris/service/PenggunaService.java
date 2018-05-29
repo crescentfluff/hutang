@@ -10,14 +10,18 @@ public interface PenggunaService {
 
     PenggunaModel selectPenggunaById(int id);
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<PenggunaModel> selectAllPengguna();
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     void updatePengguna(PenggunaModel pengguna);
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     void statusPengguna(int idPengguna);
 
     PenggunaModel selectPenggunaByUsername(String username);
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     void addPengguna(PenggunaModel pengguna);
 
     List<PenggunaModel> selectAllSSO();

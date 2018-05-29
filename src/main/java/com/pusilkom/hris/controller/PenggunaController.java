@@ -26,27 +26,20 @@ public class PenggunaController {
     @Autowired
     EmployeeService employeeDAO;
 
-
-    @PreAuthorize("hasAuthority('GET_PENGGUNA_KELOLA')")
     @GetMapping("pengguna/kelola")
     public String kelolaPengguna (@NotNull Authentication auth, Model model){
-        UserWeb login = (UserWeb)auth.getPrincipal();
-
-        if (login.getUsername().equalsIgnoreCase(null))
+        //checking ---- ganti 'ROLE_ADMIN' sesuai halaman aja
+        UserWeb penggunaLogin = (UserWeb)auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(login.getUsername());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        }
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-
-        model.addAttribute("penggunaLogin", penggunaLogin);
-
-        for (String role: penggunaLogin.getRole()
-             ) {
-            System.out.println("ROLE: "+role);
-        }
+        //end of check
 
         List<PenggunaModel> user = penggunaDAO.selectAllPengguna();
         List<PenggunaModel> userIn = new ArrayList<>();
@@ -59,18 +52,18 @@ public class PenggunaController {
     }
 
     @GetMapping("pengguna/kelola/inactive")
-    public String kelolaPenggunaInactive (Principal principal, Model model){
-        if (principal == null) {
+    public String kelolaPenggunaInactive (@NotNull Authentication auth, Model model) {
+
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
 
         List<PenggunaModel> user = penggunaDAO.selectAllPengguna();
         List<PenggunaModel> userIn = new ArrayList<>();
@@ -84,20 +77,20 @@ public class PenggunaController {
 
 
     @GetMapping("pengguna/tambah")
-    public String formAddPengguna (Principal principal, Model model) {
-        if (principal == null) {
+    public String formAddPengguna (@NotNull Authentication auth, Model model) {
+
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
 
-        model.addAttribute("listPengguna", penggunaDAO.selectAllSSO());
         model.addAttribute("employees", employeeDAO.selectAllEmployees());
         PenggunaModel pgn =  new PenggunaModel();
         model.addAttribute("pengguna", pgn);
@@ -105,36 +98,41 @@ public class PenggunaController {
     }
 
 
-    @RequestMapping(value="pengguna/tambah", method=RequestMethod.POST)
-    public String successAdd (Principal principal, Model model, @ModelAttribute PenggunaModel pengguna) {
-        if (principal == null) {
+    @PostMapping(value="pengguna/tambah")
+    public String successAdd (@NotNull Authentication auth, Model model, @ModelAttribute PenggunaModel pengguna) {
+
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
-
+        //end of check
 
         penggunaDAO.addPengguna(pengguna);
         return "redirect:/pengguna/kelola?success=tambah";
     }
 
     @PostMapping(value="pengguna/ubah/{id}")
-    public String successUpdate (Principal principal, Model model, @ModelAttribute PenggunaModel pengguna, @PathVariable(value = "id") int id) {
-        if (principal == null) {
+    public String successUpdate (@NotNull Authentication auth, Model model, @ModelAttribute PenggunaModel pengguna, @PathVariable(value = "id") int id) {
+
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         PenggunaModel pgn = penggunaDAO.selectPenggunaById(id);
 
@@ -144,20 +142,23 @@ public class PenggunaController {
     }
 
     @GetMapping("pengguna/ubah/{id}")
-    public String updatePengguna (Principal principal, Model model, @PathVariable(value = "id") int id){
-        if (principal == null) {
+    public String updatePengguna (@NotNull Authentication auth, Model model, @PathVariable(value = "id") int id){
+
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         PenggunaModel pgn = penggunaDAO.selectPenggunaById(id);
-        model.addAttribute("pengguna", pgn);
+        System.out.println(pgn.toString());
         model.addAttribute("employees", employeeDAO.selectAllEmployees());
         if (pgn != null) {
             model.addAttribute("pengguna", pgn);
@@ -167,17 +168,20 @@ public class PenggunaController {
     }
 
     @GetMapping("pengguna/status/{id}")
-    public String statusPengguna (Principal principal, Model model, @PathVariable(value="id") int id) {
-        if (principal == null) {
+    public String statusPengguna (@NotNull Authentication auth, Model model, @PathVariable(value="id") int id) {
+
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
             return "redirect:/login";
         }
-
-        PenggunaModel penggunaLogin = penggunaDAO.selectPenggunaByUsername(principal.getName());
-
-        if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        else if (!penggunaLogin.getRole().contains("ROLE_ADMIN")) {
             return "redirect:/";
         }
-        model.addAttribute("penggunaLogin", penggunaLogin);
+        //end of check
 
         penggunaDAO.statusPengguna(id);
         model.addAttribute("notif", "Status Berhasil Diubah!");
@@ -187,12 +191,14 @@ public class PenggunaController {
     }
 
     @RequestMapping("/login")
-    public String login (Principal principal) {
-        if (principal != null) {
-            return "redirect:/";
+    public String login (@NotNull Authentication auth) {
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
+            return "redirect:/login";
         }
+        //end of check
         return "login";
     }
-
 
 }

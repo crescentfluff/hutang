@@ -74,10 +74,10 @@ import java.util.List;
 @Mapper
 public interface PenggunaMapper {
 
-    @Insert("INSERT INTO penggunaemployee (username, id_employee) VALUES (#{username}, #{id_employee})")
+    @Insert("INSERT INTO pengguna (username, id_employee,is_aktif) VALUES (#{username}, #{id_employee}, 1)")
     void addPengguna(@Param("username") String username, @Param("id_employee") int id_employee);
 
-    @Update("UPDATE penggunaemployee username=#{username}, id_employee=#{idEmployee} where username=#{username}")
+    @Update("UPDATE pengguna SET username=#{username}, id_employee=#{idEmployee} where username=#{username}")
     void updatePengguna(@Param("username") String username, @Param("idEmployee") int idEmployee);
 
 
@@ -85,21 +85,21 @@ public interface PenggunaMapper {
     void activatePengguna(@Param("username") String username,
                           @Param("is_aktif") int is_aktif);
 
-    @Select("SELECT * FROM pengguna, penggunaemployee p WHERE pengguna.username=p.username")
+    @Select("SELECT * FROM pengguna")
     List<PenggunaModel> selectAllPengguna();
 
-    @Select("select r.username, roles from rolepengguna r join penggunaemployee e on e.username = r.username where username=#{uname}")
+    @Select("select r.username, roles from rolepengguna r join pengguna e on e.username = r.username where e.username=#{uname}")
     List<RoleModel> selectRolePengguna(String uname);
 
     @Select("SELECT * FROM pengguna WHERE is_aktif=1")
     List<PenggunaModel> selectAllSSO();
 
-    @Select("SELECT nama_lengkap from datadiri d, penggunaemployee p where username=#{username} and d.id_employee=p.id_employee and is_aktif=1")
+    @Select("SELECT nama_lengkap from datadiri d, pengguna p where username=#{username} and d.id_employee=p.id_employee and d.is_aktif=1")
     String selectNamaPengguna(String username);
 
 
     @Select("SELECT d.* , e.nip, e.divisi, dv.nama_divisi, pe.id as id_pengguna " +
-            "FROM penggunaemployee PE JOIN employee E ON PE.id_employee=e.id_employee " +
+            "FROM pengguna PE JOIN employee E ON PE.id_employee=e.id_employee " +
             "JOIN datadiri D ON D.id_employee=E.id_employee " +
             "JOIN divisi DV ON DV.id_divisi=E.divisi " +
             "WHERE PE.username=#{username} AND " +
@@ -111,7 +111,7 @@ public interface PenggunaMapper {
     @Select("SELECT * FROM pengguna WHERE username = #{username}")
     @Results(value = {
             @Result(property = "username", column = "username"),
-            @Result(property = "roles", column = "username",
+            @Result(property = "role", column = "username",
                     javaType =  List.class,
                     many = @Many(select = "selectRolesByUsername")),
             @Result(property = "employee", column = "username",
@@ -121,9 +121,9 @@ public interface PenggunaMapper {
     PenggunaModel selectPenggunaByUsername(String username);
 
     @Select("SELECT roles FROM rolepengguna WHERE username = #{username}")
-    List<RolePengguna> selectRolesByUsername(String username);
+    List<String> selectRolesByUsername(String username);
 
-    @Select("SELECT * FROM pengguna NATURAL JOIN penggunaemployee WHERE id=#{idPengguna}")
+    @Select("SELECT * FROM pengguna WHERE id=#{idPengguna}")
     PenggunaModel selectPenggunabyId(int idPengguna);
 
     @Insert("INSERT INTO rolepengguna (username, roles) VALUES (#{username}, #{role})")

@@ -22,4 +22,6 @@ public interface EmployeeService {
     void deactivateEmployee(int id_employee);
 
     void activateEmployee(int id_employee);
+
+    EmployeeModel selectEmployeeByUsername(String username);
 }

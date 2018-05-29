@@ -107,7 +107,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping(value = "auth/update/{id}")
+    @GetMapping(value = "auth/edit/{id}")
     public String getAuthEdit(@PathVariable Long id, Model uiModel, RedirectAttributes attributes) {
         List<AuthItem> functionAuthItemList = authItemService.getFunctionAuthItemList();
         AuthItemCmd authItemCmd = authItemService.getAuthItemCmdById(id);

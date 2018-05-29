@@ -66,4 +66,9 @@ public class EmployeeDatabase implements EmployeeService{
     public void activateEmployee(int id_employee){
         employeeMapper.activateEmployee(id_employee);
     }
+
+    @Override
+    public EmployeeModel selectEmployeeByUsername(String username){
+        return employeeMapper.selectEmployeeByUsername(username);
+    }
 }

@@ -62,6 +62,7 @@ public class AuthItemService {
 
     public AuthItemCmd getAuthItemCmdById(Long id) {
         AuthItem authItem = getAuthItemById(id);
+//        System.out.println("INI ID CHILDNYAAA "+authItem.getName());
         AuthItemCmd authItemCmd = new AuthItemCmd();
 
         authItemCmd.setId(authItem.getId());
@@ -154,6 +155,7 @@ public class AuthItemService {
     }
 
     public AuthItem getAuthItemById(Long id){
+        System.out.println("ID aUTHitem =="+id);
         return authItemMapper.selectByPrimaryKey(id);
     }
 

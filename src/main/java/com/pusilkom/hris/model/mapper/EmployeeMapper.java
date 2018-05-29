@@ -73,4 +73,7 @@ public interface EmployeeMapper {
     void deactivateEmployee(@Param("id_employee") int id_employee);
 
 
+    @Select("SELECT * FROM pengguna, datadiri where pengguna.id_employee = DATADIRI.id_employee " +
+            "and pengguna.username = #{username} AND DATADIRI.is_aktif = 1")
+    EmployeeModel selectEmployeeByUsername(@Param("username") String username);
 }

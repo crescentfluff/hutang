@@ -13,16 +13,20 @@ import java.util.Map;
 public class UserWeb extends User {
     private Map<String, Object> attributes;
     private List<String> role;
+    private EmployeeModel employeeModel;
 
     public UserWeb(String username, String password, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attribute) {
         super(username, password, authorities);
         this.attributes = attribute;
             role = new ArrayList<>();
-            String[] roles=authorities.toString().substring(1,authorities.toString().length()-2).split(",");
+        String[] roles= authorities.toString().split(",");
         for (String r : roles
              ) {
-            if (!r.equalsIgnoreCase("role_user"))
-                role.add(r);
+            if (!r.contains("USER")) {
+                if (r.contains("["))
+                    role.add(r.substring(1));
+                else role.add(r);
+            }
         }
 
     }

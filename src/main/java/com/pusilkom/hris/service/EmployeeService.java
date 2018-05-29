@@ -19,7 +19,7 @@ public interface EmployeeService {
 
     @PreAuthorize("hasRole('ROLE_HR')")
     void addNewEmployee(EmployeeModel employee);
-p
+
     void updateEmployee(EmployeeModel employee);
 
     @PreAuthorize("hasRole('ROLE_HR')")

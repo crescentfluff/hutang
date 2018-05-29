@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Finalisasi Absensi </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#EmployeeTable').DataTable();
+        } );
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="#">Absensi</a></li>
+                    <li><a href="#" aria-current="page">Review Absensi</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Review Finalisasi Absensi</h1>
+                </div>
+                <div class="column">
+                </div>
+                <div class="column">
+                </div>
+            </div>
+            <br>
+            <h1 th:text="'id_employee : ' + ${absen.id_employee}" style="font-weight: bold; font-size: 20px"> Nama Pengirim : </h1>
+            <h2 th:text="'Tanggal Absen : ' + ${absen.tanggal_absen}" style="font-weight: bold; font-size: 20px"> Jangka Waktu : </h2>
+            <!--<h2 th:text="'Kategori Kehadiran : ' + ${absen.id_kategori_kehadiran}" style="font-weight: bold; font-size: 20px"> Alasan Pengajuan CutiModel : </h2>-->
+            <h2  style="font-weight: bold; font-size: 20px"> Kategori Kehadiran : Hadir </h2>
+            <h2 th:text="'Kategori Kehadiran : ' + ${absen.keterangan}" style="font-weight: bold; font-size: 20px"> Alasan Pengajuan Cuti : </h2>
+            <br>
+            <form style="display: inline-block" action="/absen/update/submit" method="post" th:object="${absen}">
+                <input type="hidden" name="id_employee" readonly="true" th:value="${absen.id_employee}" th:field="*{id_employee}"/>
+                <button class="button is-info terima" type="submit" name="action" value="update">Finalisasi</button>
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+</body>
+</html>

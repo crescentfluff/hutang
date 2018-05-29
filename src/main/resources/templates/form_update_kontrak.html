@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Ubah Kontrak </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >HR</a></li>
+                    <li><a >Detil Profil </a></li>
+                    <li><a >Kontrak</a></li>
+                    <li><a >Ubah</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Ubah Kontrak </h1>
+                </div>
+            </div>
+            <form id="formUbahKontrak" th:action="@{/kontrak/update/submit}" method="post"  th:object="${kontrak}">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tanggal Awal Kontrak</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select is-fullwidth">
+                            <input id="tanggal_awal" class="input" type="text" th:value="${kontrak.tanggal_awal}" th:field="*{tanggal_awal}" required = "true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tanggal Akhir Kontrak</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select is-fullwidth">
+                            <input id="tanggal_akhir" class="input" type="text" th:value="${kontrak.tanggal_akhir}" th:field="*{tanggal_akhir}" required = "true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Kontrak</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select is-fullwidth">
+                            <input class="input" type="text" th:value="${kontrak.no_kontrak}" th:field="*{no_kontrak}" required = "true">
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden"  th:field="*{username_pengisi}">
+                <input type="hidden"  th:field="*{id_kontrak}">
+                <input type="hidden"  th:field="*{id_employee}">
+                <input type="hidden"  th:field="*{id_kontrak}">
+
+                <br>
+            </form>
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <input class="button is-success" type="submit" onclick="compare()" value="Simpan"/>
+                </p>
+                <p class="control">
+                    <a th:href="'/employee/update/' + ${kontrak.id_employee}" class="button ">
+                        Batal
+                    </a>
+                </p>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".salahTanggal").hide();
+    } );
+    function cancelModalNotif() {
+        $(".salahTanggal").hide();
+    };
+    function saveForm() {
+        $('#formUbahKontrak').submit();
+    }
+    function openConfirmationModal() {
+        $(".modal").addClass("is-active");
+    }
+    function closeConfirmationModal() {
+        $(".modal").removeClass("is-active");
+    }
+    $( function() {
+        $( "#datepicker" ).datepicker();
+    } );
+
+    function compare() {
+        var startDt = document.getElementById("tanggal_awal").value;
+        var endDt = document.getElementById("tanggal_akhir").value;
+        var id = document.getElementById("id_employee").value;
+        var kontrak = document.getElementById("id_kontrak").value;
+        if( (new Date(startDt).getTime() > new Date(endDt).getTime()))
+        {
+            $(".salahTanggal").show();
+        }
+        else{
+            saveForm();
+        }
+    }
+
+    document.addEventListener( 'DOMContentLoaded', function () {
+        var datePicker = new bulmaCalendar( document.getElementById( 'tanggal_awal' ), {
+            startDate: new Date(), // Date selected by default
+            dateFormat: 'yyyy-mm-dd', // the date format `field` value
+            lang: 'en', // internationalization
+            overlay: false,
+            closeOnOverlayClick: true,
+            closeOnSelect: true,
+            // callback functions
+            onSelect: null,
+            onOpen: null,
+            onClose: null,
+            onRender: null
+        } );
+    } );
+    document.addEventListener( 'DOMContentLoaded', function () {
+        var datePicker = new bulmaCalendar( document.getElementById( 'tanggal_akhir' ), {
+            startDate: new Date(), // Date selected by default
+            dateFormat: 'yyyy-mm-dd', // the date format `field` value
+            lang: 'en', // internationalization
+            overlay: false,
+            closeOnOverlayClick: true,
+            closeOnSelect: true,
+            // callback functions
+            onSelect: null,
+            onOpen: null,
+            onClose: null,
+            onRender: null
+        } );
+    } );
+</script>
+
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menyimpan perubahan yang dilakukan ?</h3>
+
+            <br>
+            <button type="submit" class="button is-success"onclick="compare()">Simpan</button>
+            <button type="button" class="button" onclick="closeConfirmationModal()">Batal</button>
+        </section>
+    </div>
+</div>
+<div class="modal salahTanggal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Tanggal awal pada pengajuan cuti harus lebih awal dibandingkan tanggal akhir</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+</body>
+</html>

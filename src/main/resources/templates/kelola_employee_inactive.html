@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Kelola Karyawan Nonaktif </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $(".hapus").hide();
+            $('#EmployeeTable').DataTable();
+
+            $("#modal-hapus").click(function() {
+                $(".hapus").removeClass("is-active");
+            });
+
+            $("#modal-hapus-cancel").click(function() {
+                console.log('masuk cuyyyy')
+                $(".hapus").hide();
+            });
+        } );
+
+        function showModalHapus(id) {
+            $(".hapus").show();
+            $("#confirmNonaktif").attr("href", "/employee/delete/" + id);
+        };
+
+        function cancelModalHapus() {
+            $(".hapus").hide();
+            $("#confirmNonaktif").attr("href", "#");
+        };
+
+        function cancelModalNotif() {
+            $(".notif").hide();
+        };
+
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >HR</a></li>
+                    <li><a aria-current="page">Kelola Semua Employee</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style=" font-weight: bold"> Kelola Karyawan
+                        <a class="tooltip is-tooltip-bottom" data-tooltip="Tambah" style="font-size: 16px; color: #FFCF26;" th:href="'/employee/add'">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </h1>
+                </div>
+            </div>
+           <!-- <a th:href="'/employee/add'" style="color: #000000" class="button is-warning">Tambah Employee Baru</a>-->
+            <div class="tabs is-medium">
+                <ul>
+                    <li>
+                        <a th:href="'/employee/viewall'">
+                            <span class="icon is-small"><i class="fas fa-check" aria-hidden="true"></i></span>
+                            <span>Karyawan Aktif</span>
+                        </a>
+
+                    </li>
+                    <li class="is-active">
+                        <a>
+                            <span class="icon is-small"><i class="fas fa-ban" aria-hidden="true"></i></span>
+                            <span>Karyawan Nonaktif</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth display" align="center" id="EmployeeTable">
+                <thead>
+                <tr>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> NIP Employee </th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Nama Employee </th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Divisi </th>
+                    <th style="color: white; text-align:center; background-color: #F2994A"> Aktifkan</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="employee,iterationStatus: ${employees}">
+                    <th style="text-align:center" th:text="${employee.nip}">  </th>
+                    <th style="text-align:center" th:text="${employee.nama_lengkap}">  </th>
+                    <th style="text-align:center" th:text="${employee.nama_divisi}">  </th>
+                    <th style="text-align:center">
+                        <!--
+                        <span class="icon is-small">
+                            <a class="tooltip is-tooltip-bottom" data-tooltip="Ubah" style="font-size: 16px; color: #0a0a0a;" th:href="'/employee/update/' + ${employee.id_employee}">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </span>
+                        <!--
+                        <a th:href="'/employee/update/' + ${employee.id_employee}" class="button is-info">Ubah</a>
+
+                    </th>
+                    <th style="text-align:center">
+                        -->
+                        <span class="icon is-small">
+                            <a class="tooltip is-tooltip-bottom" data-tooltip="Aktifkan" style="font-size: 16px; color: #00cd00" th:onclick="'javascript:showModalAktif(\''+ ${employee.id_employee} +'\');'">
+                                <i class="fas fa-check"></i>
+                            </a>
+                        </span>
+                        <!--
+                        <button class="button is-danger is-hovered" th:onclick="'javascript:showModalHapus(\''+ ${employee.id_employee} +'\');'">Nonaktifkan</button>
+                        -->
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+<script>
+    function showModalAktif(id) {
+        $(".hapus").show();
+        $("#confirmNonaktif").attr("href", "/employee/activate/" + id);
+    };
+
+    function cancelModalAktif() {
+        $(".hapus").hide();
+        $("#confirmNonaktif").attr("href", "#");
+    };
+
+    function cancelModalNotif() {
+        $(".notif").hide();
+    };
+</script>
+<div class="modal hapus is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin mengaktifkan karyawan?</h3>
+            <br>
+            <a id="confirmNonaktif" class="button is-danger">Aktifkan</a>
+            <button onclick="cancelModalAktif()" class="button">Batal</button>
+        </section>
+
+    </div>
+</div>
+<div th:if="${param.success}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.success}"></span> Karyawan</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Profil Karyawan </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $(".hapus").hide();
+            $('#EmployeeTable').DataTable();
+
+            $("#modal-hapus").click(function() {
+                $(".hapus").removeClass("is-active");
+            });
+
+            $("#modal-hapus-cancel").click(function() {
+                console.log('masuk cuyyyy')
+                $(".hapus").hide();
+            });
+        } );
+
+        function showModalHapus(id) {
+            $(".hapus").show();
+            $("#confirmNonaktif").attr("href", "/employee/profile/" + id);
+        };
+
+        function cancelModalHapus() {
+            $(".hapus").hide();
+            $("#confirmNonaktif").attr("href", "#");
+        };
+
+        function cancelModalNotif() {
+            $(".notif").hide();
+        };
+
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main" >
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >Executive</a></li>
+                    <li><a >Summmary</a></li>
+                    <li><a aria-current="page"> Detil Karyawan</a></li>
+                </ul>
+            </nav>
+            <h1 style="text-align:center; font-weight: bold">
+                <th th:text= "${employee.nama_lengkap}"></th>
+            </h1>
+            <div style="width: 50; height: 50; margin-top: 30px">
+                <div class="columns">
+                    <div class="column">
+                        <div class="select">
+                            <select onchange="location = this.value">
+                                <option value="">Pilih Bulan</option>
+                                <option value="1">Januari</option>
+                                <option value="2">Februari</option>
+                                <option value="3">Maret</option>
+                                <option value="4">April</option>
+                                <option value="5">Mei</option>
+                                <option value="6">Juni</option>
+                                <option value="7">Juli</option>
+                                <option value="8">Agustus</option>
+                                <option value="9">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+
+                        <h3 th:text="'Summary Kehadiran pada bulan ' + ${nama_bulan}"></h3>
+                    </div>
+
+                </div>
+                <canvas id="myChart2" style="width: 50%; height: 50%;"></canvas>
+            </div>
+            <form id="formDataDiri" class="field" th:object="${employee}">
+                <label class="label" style="font-size: 22px; font-weight: bold; color:#FFCF26 ">Data Pribadi</label>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nama Lengkap</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:value="${employee.nama_lengkap}" >
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Jenis Kelamin</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:if="${employee.jenis_kelamin} == 0"> Laki-Laki </p>
+                        <p style="margin-top: 5px" th:if="${employee.jenis_kelamin} == 1"> Perempuan </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tempat Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.tempat_lahir}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tanggal Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.tanggal_lahir}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat Tinggal</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.alamat_tinggal}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.alamat_ktp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">E-mail Kantor</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.email_kantor}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">E-mail Pribadi</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.email_pribadi}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Rumah</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_rumah}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Darurat</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_darurat}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor HP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_telepon_seluler}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Kesehatan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_bpjs_kesehatan}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Tenaga Kerja</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_bpjs_tenaga_kerja}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">NPWP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.npwp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_ktp}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Kewarganegaraan</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <p style="margin-top: 5px" th:if="${employee.kewarganegaraan} == 0"> WNA </p>
+                        <p style="margin-top: 5px" th:if="${employee.kewarganegaraan} == 1"> WNI </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Agama</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.agama}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Status Perkawinan</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <p style="margin-top: 5px" th:if="${employee.status_kawin} == 0"> Belum Menikah </p>
+                        <p style="margin-top: 5px" th:if="${employee.status_kawin} == 1"> Menikah </p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.no_rekening}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Bank Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.bank_rekening}"></p>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Atas Nama Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <p style="margin-top: 5px" th:text="${employee.atas_nama_rekening}"></p>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var ctx = document.getElementById("myChart2").getContext('2d');
+    var myChart2 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: /*[[${nama_kategori_kehadiran}]]*/ [],
+            datasets: [{
+                label: '# of Votes',
+                data: /*[[${chartValueKehadiran}]]*/ [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            // scales: {
+            //     yAxes: [{
+            //         ticks: {
+            //             beginAtZero:true
+            //         }
+            //     }]
+            // }
+        }
+    });
+    /*]]>*/
+</script>
+</html>

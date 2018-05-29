@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Review Cuti </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#EmployeeTable').DataTable();
+        });
+        function cancelModalNotif() {
+            $('.notif').removeClass('is-active');
+        }
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >HR</a></li>
+                    <li><a >Cuti</a></li>
+                    <li><a aria-current="page">Review Cuti</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Review Pengajuan Cuti </h1>
+                </div>
+                <div class="column">
+                </div>
+                <div class="column">
+                </div>
+            </div>
+
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="EmployeeTable" align="center">
+                <thead>
+                <tr>
+                    <th style="color: white; text-align:center; background-color: rgb(242,153,74)"> Nama Pengirim </th>
+                    <th style="color: white; text-align:center; background-color: rgb(242,153,74)"> Divisi</th>
+                    <th style="color: white; text-align:center; background-color: rgb(242,153,74)"> Keterangan Cuti </th>
+                    <th style="color: white; text-align:center; background-color: rgb(242,153,74)"> Status </th>
+                    <th style="color: white; text-align:center; background-color: rgb(242,153,74)"> Atur </th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="cuti: ${cuti}">
+                    <tr>
+                        <td style="text-align:center" th:text="${cuti.nama_lengkap}"> Nama Pengirim </td>
+                        <td style="text-align:center" th:text="${cuti.nama_divisi}"> Divisi</td>
+                        <td style="text-align:center" th:text="${cuti.ket_cuti}"> Keterangan Cuti</td>
+                        <td style="text-align:center" th:if="${cuti.status} == 0"> Sedang Dalam Proses </td>
+                        <td style="text-align:center" th:if="${cuti.status} == 1"> Diterima </td>
+                        <td style="text-align:center" th:if="${cuti.status} == 2"> Ditolak </td>
+                        <td style="text-align:center">
+                            <!--<a class="button is-info" th:href="'/cuti/detail/' + ${cuti.id_cuti}">Lihat</a>-->
+                            <span class="icon is-small">
+                                <a class="tooltip is-tooltip-bottom" data-tooltip="Lihat" style="font-size: 16px;  color: #0a0a0a;" th:href="'/cuti/detail/' + ${cuti.id_cuti}">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </span>
+                            <!--
+                            <a th:href="'/cuti/detail/' + ${cuti.id_cuti}">
+                                <!--<span>Finalisasi</span>
+                                <span class="icon is-small">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </a>
+                            -->
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+</div>
+</body>
+
+<div th:if="${param.success}" class="modal notif is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Berhasil <span th:text="${param.success}"></span> Cuti</h3>
+            <br>
+            <button onclick="cancelModalNotif()" class="button is-success">Oke</button>
+        </section>
+    </div>
+</div>
+</html>

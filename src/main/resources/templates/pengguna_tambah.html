@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Tambah Pengguna </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <link rel="stylesheet" href="/css/bulma-checkradio.min.css"></link>
+    <link rel="stylesheet" href="/bulma-checkradio.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $(".hapus").hide();
+            $('#EmployeeTable').DataTable();
+            $('.uname').select2({
+                placeholder: 'Pilih username SSO terdaftar'
+            });
+            $('.employee').select2({
+                placeholder: 'Pilih nama employee terdaftar'
+            });
+            $("#modal-hapus").click(function() {
+                $(".hapus").removeClass("is-active");
+            });
+
+            $("#modal-hapus-cancel").click(function() {
+                console.log('masuk cuyyyy')
+                $(".hapus").hide();
+            });
+        } );
+
+        function showModalHapus(id) {
+            $(".hapus").show();
+            $("#confirmNonaktif").attr("href", "/employee/delete/" + id);
+        };
+
+        function cancelModalHapus() {
+            $(".hapus").hide();
+            $("#confirmNonaktif").attr("href", "#");
+        };
+
+        function cancelModalNotif() {
+            $(".notif").hide();
+        };
+
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >Administrator</a></li>
+                    <li><a >Kelola Pengguna</a></li>
+                    <li><a aria-current="page">Tambah </a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Tambah Pengguna Baru</h1>
+                </div>
+            </div>
+            <form id="formTambahPengguna" class="field" action="/pengguna/tambah/" method="post" th:object="${pengguna}">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Username SSO </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-narrow">
+                            <div class="control">
+                                <div>
+                                   <input class="input" type="text" placeholder="Username" th:field="*{username}" th:required="required">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label">Identitas Employee </label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-narrow">
+                            <div class="control">
+                                <div>
+                                    <select class="select2-js-wey employee" style="width: 350px" th:field="*{id_employee}">
+                                        <option th:each="emp : ${employees}" th:value="${emp.id_employee}" th:text="${emp.nama_lengkap}">Nama Employee Terdaftar</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-vertical" style="margin-left: 40px">
+                    <div class="field-label is-normal">
+                    <label class="label"  style="text-align: left">Role Dalam Sistem : </label>
+                    </div>
+                    <div class="field-body">
+                        <input type="hidden" name="role" th:value="none"/>
+                        <input class="is-checkradio" id="isEmployee" type="checkbox" name="role" th:value="ROLE_EMPLOYEE" disabled="true" checked="true">
+                        <label for="isEmployee"> Employee</label>
+                        <input class="is-checkradio" id="isAdmin" type="checkbox" name="role" th:value="ROLE_ADMIN">
+                        <label for="isAdmin"> Administrator</label>
+                        <input class="is-checkradio" id="isExecutive" type="checkbox" name="role" th:value="ROLE_EXECUTIVE">
+                        <label for="isExecutive">Executive</label>
+                        <input class="is-checkradio" id="isHR" type="checkbox" name="role" th:value="ROLE_HR">
+                        <label for="isHR">HR</label>
+                    </div>
+                </div>
+            </form>
+
+            <br>
+
+            <div class="has-text-centered" >
+                <span style="margin-right: 200px">
+                    <button type="submit" class="button is-success" onclick="openConfirmationModal()">Simpan</button>
+                    <a th:href="'/pengguna/kelola/'" class="button ">
+                        Batal
+                    </a>
+                </span>
+            </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+        </main>
+    </div>
+</div>
+<script>
+    function saveForm() {
+        $('#formTambahPengguna').submit();
+    }
+
+    function openConfirmationModal() {
+        $(".modal").addClass("is-active");
+    }
+
+    function closeConfirmationModal() {
+        $(".modal").removeClass("is-active");
+    }
+
+</script>
+
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <header class="modal-card-head">
+            <p class="modal-card-title"></p>
+            <button class="delete" aria-label="close" onclick="closeConfirmationModal()"></button>
+        </header>
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menambahkan pengguna baru ?</h3>
+
+            <br>
+            <button type="submit" class="button is-success" onclick="saveForm();">Simpan</button>
+            <button type="button" class="button " onclick="closeConfirmationModal()">Batal</button>
+        </section>
+    </div>
+</div>
+
+
+</body>
+
+</html>

@@ -48,7 +48,7 @@ public class PenggunaController {
         }
         model.addAttribute("listpengguna", userIn);
         model.addAttribute("notif", NULL);
-        return "site/pengguna_kelola";
+        return "pengguna_kelola";
     }
 
     @GetMapping("pengguna/kelola/inactive")

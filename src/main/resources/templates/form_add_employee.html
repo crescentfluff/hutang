@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Tambah Karyawan </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+</head>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<body>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a > HR</a></li>
+                    <li><a  aria-current="page">Tambah Karyawan Baru</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Form Tambah Karyawan </h1>
+                </div>
+            </div>
+            <form class="field" action="/employee/add/submit" method="POST" id="formAddEmployee" th:object="${employee}">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">NIP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan NIP" th:value="${employee.nip}" th:field="*{nip}" required = "true">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nama Karyawan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nama" th:value="${employee.nama_lengkap}" th:field="*{nama_lengkap}" required = "true">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Divisi</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <div class="select is-fullwidth">
+                            <select name="divisi" id="divisi">
+                                <option th:each="divisi,i: ${listDivisi}" th:value="${divisi.id_divisi}" th:text="${divisi.nama_divisi}" th:selected="${employee.divisi == divisi.id_divisi ? 'selected' : ''}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <label class="label" style="font-size: 20px; font-weight: bold; color:#FFCF26 ">Data Pribadi</label>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Jenis Kelamin</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="field-body has-addons">
+                            <div class="select is-fullwidth">
+                                <select name="jenis_kelamin" th:value="${employee.jenis_kelamin}" th:field="*{jenis_kelamin}" required = "true">
+                                    <option value="0">Laki-Laki</option>
+                                    <option value="1">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tempat Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Tempat Lahir" th:value="${employee.tempat_lahir}" th:field="*{tempat_lahir}" required = "true">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Tanggal Lahir</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="select is-fullwidth">
+                            <input id="datepickerDemo" placeholder="Tuliskan Tanggal Lahir" class="input" type="text" th:value="${employee.tanggal_lahir}" th:field="*{tanggal_lahir}" required = "true">
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat Tempat Tinggal</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Alamat Tempat Tinggal" th:value="${employee.alamat_tinggal}" th:field="*{alamat_tinggal}" required="true">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Alamat KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Alamat KTP" th:value="${employee.alamat_ktp}" th:field="*{alamat_ktp}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Email Kantor</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Email Kantor" th:value="${employee.email_kantor}" th:field="*{email_kantor}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Email Pribadi</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Email Pribadi" th:value="${employee.email_pribadi}" th:field="*{email_pribadi}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Rumah</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor Telepon Rumah" th:value="${employee.no_telepon_rumah}" th:field="*{no_telepon_rumah}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Telepon Darurat</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor Telepon Darurat" th:value="${employee.no_telepon_darurat}" th:field="*{no_telepon_darurat}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor HP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor HP" th:value="${employee.no_telepon_seluler}" th:field="*{no_telepon_seluler}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Kesehatan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor BPJS Kesehatan" th:value="${employee.no_bpjs_kesehatan}" th:field="*{no_bpjs_kesehatan}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor BPJS Tenaga Kerja</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor BPJS Tenaga Kerja" th:value="${employee.no_bpjs_tenaga_kerja}" th:field="*{no_bpjs_tenaga_kerja}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">NPWP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan NPWP" th:value="${employee.npwp}" th:field="*{npwp}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor KTP</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor KTP" th:value="${employee.no_ktp}" th:field="*{no_ktp}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Kewarganegaraan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="field-body has-addons">
+                            <div class="select is-fullwidth">
+                                <select name="kewarganegaraan">
+                                    <option value="0">WNA</option>
+                                    <option value="1">WNI</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Agama</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Agama" th:value="${employee.agama}" th:field="*{agama}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Status Perkawinan</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <div class="field-body has-addons">
+                            <div class="select is-fullwidth">
+                                <select name="status_kawin">
+                                    <option value="0">Belum Menikah</option>
+                                    <option value="1">Menikah</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Nomor Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nomor Rekening" th:value="${employee.no_rekening}" th:field="*{no_rekening}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Bank Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Bank Rekening" th:value="${employee.bank_rekening}" th:field="*{bank_rekening}">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Atas Nama Rekening</label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Atas Nama Rekening" th:value="${employee.atas_nama_rekening}" th:field="*{atas_nama_rekening}">
+                    </div>
+                </div>
+            </form>
+
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <span style="margin-top: 150px">
+                        <button type="submit" class="button is-success" onclick="saveForm()">Simpan</button>
+                        <a type="button" class="button " href="/employee/viewall" >Batal</a>
+                    </span>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </main>
+    </div>
+</div>
+<script>
+    document.addEventListener( 'DOMContentLoaded', function () {
+        var datePicker = new bulmaCalendar( document.getElementById( 'datepickerDemo' ), {
+            startDate: new Date(), // Date selected by default
+            dateFormat: 'yyyy-mm-dd', // the date format `field` value
+            lang: 'en', // internationalization
+            overlay: false,
+            closeOnOverlayClick: true,
+            closeOnSelect: true,
+            // callback functions
+            onSelect: null,
+            onOpen: null,
+            onClose: null,
+            onRender: null
+        } );
+    } );
+
+    function saveForm() {
+        $('#formAddEmployee').submit();
+    }
+
+    function openConfirmationModal() {
+        $(".confirm").addClass("is-active");
+    }
+    function closeConfirmationModal() {
+        $(".confirm").removeClass("is-active");
+    }
+
+    </script>
+
+</body>
+</html>

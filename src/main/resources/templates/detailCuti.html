@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Detil Cuti </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $(".tolak").hide();
+            $(".terima").hide();
+
+            $("#modal-tolak").click(function () {
+                $(".tolak").removeClass("is-active");
+            });
+
+            $("#modal-tolak-cancel").click(function () {
+                $(".tolak").hide();
+            });
+
+            $("#modal-terima").click(function () {
+                $(".terima").removeClass("is-active");
+            });
+
+            $("#modal-terima-cancel").click(function () {
+                $(".terima").hide();
+            });
+        });
+        function saveFormTolak() {
+            $('#formReviewCuti').attr('action', "/cuti/update/submit/tolak").submit();
+        }
+        function showModalTolak() {
+            $(".tolak").show();
+        };
+        function cancelModalTolak() {
+            $(".tolak").hide();
+        };
+        function saveFormTerima() {
+            $('#formReviewCuti').attr('action', "/cuti/update/submit/terima").submit();
+        }
+        function showModalTerima() {
+            $(".terima").show();
+        };
+        function cancelModalTerima() {
+            $(".terima").hide();
+        };
+    </script>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a >HR</a></li>
+                    <li><a >Cuti</a></li>
+                    <li><a >Review Cuti</a></li>
+                    <li><a href="#" aria-current="page">Detil Cuti</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Review Pengajuan Cuti </h1>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <h3 style="font-weight: bold;">Nama Pengirim</h3>
+                    <h3 style="font-weight: bold;">Jangka Waktu</h3>
+                    <h3 style="font-weight: bold;">Alasan Pengajuan Cuti</h3>
+                </div>
+                <div class="column">
+                    <h3 th:text="':' + ${cuti.nama_lengkap}" > Nama Pengirim : </h3>
+                    <h3 th:text="':' + ${cuti.tanggal_awal} + ' sampai '  + ${cuti.tanggal_akhir}"> Jangka Waktu : </h3>
+                    <h3 th:text="':' + ${cuti.ket_cuti}" > Alasan Pengajuan Cuti : </h3>
+                </div>
+                <div class="column">
+                </div>
+                <div class="column">
+                </div>
+            </div>
+            <!--
+            <h1 th:text="'Nama Pengirim : ' + ${cuti.nama_lengkap}" style="font-weight: bold; font-size: 20px"> Nama Pengirim : </h1>
+            <h2 th:text="'Jangka Waktu : ' + ${cuti.tanggal_awal} + ' - ' + ${cuti.tanggal_akhir}" style="font-weight: bold; font-size: 20px"> Jangka Waktu : </h2>
+            <h2 th:text="'Alasan Pengajuan Cuti : ' + ${cuti.ket_cuti}" style="font-weight: bold; font-size: 20px"> Alasan Pengajuan Cuti : </h2>
+            <br>
+            -->
+            <form id="formReviewCuti" style="display: inline-block" action="/cuti/update/submit" method="post" th:object="${cuti}">
+                <input type="hidden" readonly="true" th:value="${cuti.id_cuti}" th:field="*{id_cuti}"/>
+                <input type="hidden" readonly="true" th:value="${cuti.tanggal_awal}" th:field="*{tanggal_awal}"/>
+                <input type="hidden" readonly="true" th:value="${cuti.tanggal_akhir}" th:field="*{tanggal_akhir}"/>
+                <!--
+                <h2> Keterangan </h2>
+                <textarea class="textarea" th:text="${cuti.ket_penolakan}" th:field="*{ket_penolakan}" placeholder="Tuliskan Keterangan penolakan (opsional)....."></textarea>
+                <br>
+                -->
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Keterangan</label>
+                    </div>
+                    <div class="field-body is-normal" style="margin-left: 80px">
+                        <textarea class="textarea" type="text" th:text="${cuti.ket_penolakan}" th:field="*{ket_penolakan}" placeholder="Tuliskan Keterangan Penolakan (Opsional)"></textarea>
+                    </div>
+                </div>
+
+            </form>
+            <br>
+            <br>
+            <br>
+            <div class="columns">
+                <div class="column">
+                    <div class="has-text-centered">
+                        <button class="button is-success" type="submit" onclick="showModalTerima()">Terima</button>
+                        <button class="button is-danger" type="submit" onclick="showModalTolak()">Tolak</button>
+                    </div>
+                </div>
+                <div class="column">
+                </div>
+                <div class="column">
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="modal tolak is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menolak Cuti?</h3>
+            <br>
+            <button onclick="saveFormTolak()" class="button is-danger">Tolak</button>
+            <button onclick="cancelModalTolak()" class="button">Batal</button>
+        </section>
+    </div>
+</div>
+
+<div class="modal terima is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card has-text-centered">
+        <section class="modal-card-body">
+            <h3>Apakah Anda yakin ingin menerima Cuti?</h3>
+            <br>
+            <button onclick="saveFormTerima()" class="button is-success">Terima</button>
+            <button onclick="cancelModalTerima()" class="button">Batal</button>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

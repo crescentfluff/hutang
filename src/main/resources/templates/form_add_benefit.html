@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Tambah Benefit </title>
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=7">
+    <meta name="language" content="en-EN" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/bulma-calendar.min.js"></script>
+    <script src="/js/bulma-calendar.js"></script>
+    <link rel="stylesheet" href="/css/bulma-calendar.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-calendar.sass"></link>
+    <script src="/js/extension.js"></script>
+    <link rel="stylesheet" href="/css/extension.sass"></link>
+    <script src="/js/bulma-accordion.js"></script>
+    <link rel="stylesheet" href="/css/bulma-accordion.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-accordion.sass"></link>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/bulma-tooltip.min.css"></link>
+    <link rel="stylesheet" href="/css/bulma-tooltip.sass"></link>
+    <link rel="stylesheet" href="/css/main.css"></link>
+    <style>
+        .active {
+            background-color: rgb(255,207,38);
+            margin-right: -12px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div th:replace="fragments/fragment :: navbar"></div>
+</header>
+
+<div class="wrapper">
+    <div class="columns">
+        <aside class="column" th:replace="fragments/fragment :: sidebar"></aside>
+
+        <main class="column main">
+            <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                <ul>
+                    <li><a aria-current="page"> HR</a></li>
+                    <li><a aria-current="page">Detil Profil </a></li>
+                    <li><a aria-current="page">Benefit</a></li>
+                    <li><a aria-current="page">Tambah</a></li>
+                </ul>
+            </nav>
+            <div class="columns">
+                <div class="column">
+                    <h1 style="font-weight: bold"> Tambah Benefit </h1>
+                </div>
+            </div>
+            <form id="formTambahGaji" class="field" th:action="'/benefit/add/' + ${employee.id_employee} +'/submit '" method="post" th:object="${benefit}">
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label" >Kategori Benefit</label>
+                    </div>
+                    <div class="field-body has-addons">
+                        <div class="select is-fullwidth">
+                            <select name="kategoribenefit" id="kategoribenefit" th:field="*{id_kategori_benefit}" th:required="required">
+                                <option th:each="kategoribenefit,i: ${listKategoriBenefit}"
+                                        th:value="${kategoribenefit.id_kategori}" th:text="${kategoribenefit.nama_kategori}"
+                                        th:selected="${benefit.id_kategori_benefit == kategoribenefit.id_kategori ? 'selected' : ''}">
+                                </option>
+                            </select>
+                            <span th:if="${#fields.hasErrors('id_kategori_benefit')}" th:errors="*{id_kategori_benefit}">Kategori Error</span>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label"> Kategori Benefit </label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <select name="kategoribenefit" id="kategoribenefit" th:field="*{id_kategori_benefit}">
+                            <option th:each="kategoribenefit,i: ${listKategoriBenefit}"
+                                    th:value="${kategoribenefit.id_kategori}" th:text="${kategoribenefit.nama_kategori}"
+                                    th:selected="${benefit.id_kategori_benefit == kategoribenefit.id_kategori ? 'selected' : ''}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                -->
+                <div class="field is-horizontal" >
+                    <div class="field-label is-normal">
+                        <label class="label">Nominal Benefit </label>
+                    </div>
+                    <div class="field-body is-normal">
+                        <input class="input" type="text" placeholder="Tuliskan Nominal Benefit" th:value="${benefit.nominal_benefit}" th:field="*{nominal_benefit}" th:required="required" >
+                        <span th:if="${#fields.hasErrors('nominal_benefit')}" th:errors="*{nominal_benefit}">Name Error</span>
+                    </div>
+                </div>
+            </form>
+
+            <br>
+
+            <div class="has-text-centered" >
+                <span style="margin-right: 200px">
+                    <button type="submit" class="button is-success" onclick="saveForm()">Simpan</button>
+                    <a th:href="'/employee/update/' + ${employee.id_employee}" class="button is-dangers">
+                        Batal
+                    </a>
+                </span>
+            </div>
+        </main>
+    </div>
+</div>
+<script>
+    function saveForm() {
+        $('#formTambahGaji').submit();
+    }
+
+    function openConfirmationModal() {
+        $(".modal").addClass("is-active");
+    }
+
+    function closeConfirmationModal() {
+        $(".modal").removeClass("is-active");
+    }
+    $( function() {
+        $( "#datepicker" ).datepicker();
+    } );
+
+</script>
+
+</body>
+
+</html>

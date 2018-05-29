@@ -2,6 +2,7 @@ package com.pusilkom.hris.controller;
 
 import com.pusilkom.hris.model.UserWeb;
 import com.pusilkom.hris.service.EmployeeService;
+import com.pusilkom.hris.service.PenggunaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,14 +22,24 @@ public class SiteController {
 
     @Autowired
     EmployeeService employeeDAO;
+    @Autowired
+    PenggunaService penggunaDAO;
 
     @GetMapping("/")
     @PreAuthorize("hasAuthority('GET_')")
     public String index(Model model, @NotNull Authentication auth) {
-        UserWeb user = (UserWeb) auth.getPrincipal();
-//        model.addAttribute("currentUser", user);
-        System.out.println("User : " + user.getUsername());
-        for (String r: user.getRole()) {
+        //checking
+        UserWeb penggunaLogin = (UserWeb) auth.getPrincipal();
+        if (penggunaLogin.getUsername().equalsIgnoreCase(null)) {
+            return "redirect:/login";
+        }
+        else if (penggunaDAO.selectPenggunaByUsername(penggunaLogin.getUsername())==null) {
+            return "redirect:/logout";
+        }
+        //end of check
+
+         System.out.println("User : " + penggunaLogin.getUsername());
+        for (String r: penggunaLogin.getRole()) {
             System.out.println("INI AUTHORITY: "+r);
         }
         return "absensi";
